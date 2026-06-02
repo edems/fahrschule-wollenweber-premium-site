@@ -1,0 +1,27 @@
+export const REGIONEN = [
+  'Ailertchen', 'Alpenrod', 'Astert', 'Atzelgift',
+  'Bad Marienberg', 'Bellingen', 'Berod', 'Bölsberg', 'Borod', 'Bretthausen',
+  'Daaden', 'Dreifelden', 'Dreisbach',
+  'Eichenstruht', 'Eichenstruth', 'Elkenroth', 'Emmerichenhain', 'Enspel',
+  'Fehl-Ritzhausen', 'Friedewald',
+  'Gehlert', 'Gemünden', 'Großseifen',
+  'Hachenburg', 'Hahn', 'Halbs', 'Hardt', 'Hartenfels', 'Hattert', 'Hattert-Hütte',
+  'Hellenhahn-Schellenberg', 'Hergenroth', 'Herschbach', 'Heuzert', 'Hirtscheid', 'Höchstenbach', 'Hof',
+  'Ingelbach',
+  'Kirburg', 'Kroppbach',
+  'Laad', 'Langenbach bei Bad Marienberg', 'Langenbach bei Kirburg', 'Langenbaum', 'Langenhahn', 'Lautzenbrück',
+  'Limbach', 'Linden', 'Luckenbach',
+  'Marzhausen', 'Merkelbach', 'Mörlen', 'Mudenbach', 'Mündersbach', 'Müschenbach',
+  'Neuhochstein', 'Neunkhausen', 'Neustadt',
+  'Nister', 'Nisterberg', 'Nistermöhrendorf', 'Nistertal', 'Norken',
+  'Oberroßbach',
+  'Pottum',
+  'Rennerod',
+  'Salzburg', 'Schönberg', 'Seck', 'Stahlhofen', 'Stangenrod', 'Steinebach a. d. Wied',
+  'Stein-Neukirch', 'Stockhausen-Illfurth', 'Stockum-Püschen', 'Streithausen',
+  'Unnau', 'Unnau-Korb',
+  'Weitefeld', 'Welkenbach', 'Westerburg', 'Wied', 'Willingen', 'Winnen',
+  'Zinhain',
+];
+
+export const REGIONEN_COUNT = REGIONEN.length;

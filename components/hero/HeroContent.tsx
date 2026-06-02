@@ -1,0 +1,141 @@
+'use client';
+
+import { motion, AnimatePresence } from 'framer-motion';
+import type { ModeId } from '@/lib/modes';
+import { MODES } from '@/lib/modes';
+
+type Props = { active: ModeId };
+
+const fadeUp = {
+  initial: { opacity: 0, y: 14 },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: -14 },
+  transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] },
+};
+
+export default function HeroContent({ active }: Props) {
+  const m = MODES[active];
+  const modeKey = active;
+
+  return (
+    <div className="container-page relative z-10 grid h-full grid-cols-1 items-end gap-8 pb-20 md:pb-24 lg:grid-cols-[1.4fr_1fr] lg:gap-16">
+      <div>
+        <AnimatePresence mode="wait">
+          <motion.div key={modeKey + '-badge'} {...fadeUp} className="mb-7 inline-flex items-center gap-3">
+            <span className="accent-line" />
+            <span className="eyebrow">{m.badge}</span>
+            <span className="ml-1 h-1 w-1 rounded-full bg-violet" />
+            <span className="text-[11px] font-semibold uppercase tracking-eyebrow text-mute">Fahrschule Wollenweber</span>
+          </motion.div>
+        </AnimatePresence>
+
+        <h1 className="display-1 mb-7 max-w-3xl text-offwhite">
+          <AnimatePresence mode="wait">
+            <motion.span key={modeKey + '-headline'} {...fadeUp} className="block">
+              <span className="block">{m.headline[0]}</span>
+              <span className="block gradient-text gradient-text-italic">{m.headline[1]}</span>
+              <span className="block">{m.headline[2]}</span>
+            </motion.span>
+          </AnimatePresence>
+        </h1>
+
+        <AnimatePresence mode="wait">
+          <motion.ul
+            key={modeKey + '-vp'}
+            initial="hidden"
+            animate="visible"
+            exit="hidden"
+            variants={{
+              hidden: {},
+              visible: { transition: { staggerChildren: 0.06, delayChildren: 0.05 } },
+            }}
+            className="mb-8 max-w-xl space-y-2.5"
+          >
+            {m.versprechen.map((v) => (
+              <motion.li
+                key={v}
+                variants={{
+                  hidden: { opacity: 0, x: -12 },
+                  visible: { opacity: 1, x: 0, transition: { duration: 0.4, ease: 'easeOut' } },
+                }}
+                className="flex items-start gap-3 text-[14.5px] leading-relaxed text-mute"
+              >
+                <span className="mt-[7px] inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-gradient-to-br from-brand-blue to-violet" />
+                <span className="text-offwhite/90">{v}</span>
+              </motion.li>
+            ))}
+          </motion.ul>
+        </AnimatePresence>
+
+        <div className="flex flex-wrap items-center gap-3 sm:gap-4">
+          <a href={m.ctaHref} className="btn-primary">
+            <AnimatePresence mode="wait">
+              <motion.span
+                key={modeKey + '-cta'}
+                initial={{ opacity: 0, y: 4 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -4 }}
+                transition={{ duration: 0.25 }}
+                className="inline-flex items-center gap-2"
+              >
+                {m.cta} <span className="arrow">→</span>
+              </motion.span>
+            </AnimatePresence>
+          </a>
+          <a href="tel:02661-915550" className="btn-ghost">
+            <span aria-hidden className="text-violet-light">☎</span>
+            Anrufen: 02661 - 91 55 50
+          </a>
+        </div>
+      </div>
+
+      <motion.aside
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+        className="glass-panel rounded-3xl p-7 lg:p-8"
+      >
+        <div className="mb-5">
+          <div className="eyebrow mb-1.5">Aktueller Modus</div>
+          <div className="text-[20px] font-semibold text-offwhite">
+            <AnimatePresence mode="wait">
+              <motion.span
+                key={modeKey + '-label'}
+                initial={{ opacity: 0, y: 4 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -4 }}
+                transition={{ duration: 0.25 }}
+                className="block"
+              >
+                {m.label}
+              </motion.span>
+            </AnimatePresence>
+          </div>
+        </div>
+        <div className="divider-line mb-5" />
+        <div className="grid grid-cols-3 gap-x-5 gap-y-5">
+          {m.stats.map((s, i) => (
+            <motion.div
+              key={modeKey + '-stat-' + i}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.4 + i * 0.08, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <div className="text-[26px] font-bold leading-none tracking-tightest gradient-text">
+                {s.value}
+              </div>
+              <div className="mt-1.5 text-[10px] uppercase tracking-[0.16em] text-mute">
+                {s.label}
+              </div>
+            </motion.div>
+          ))}
+        </div>
+        <div className="divider-line mt-5 mb-4" />
+        <a href="#kontakt" className="inline-flex items-center gap-2 text-[13px] font-semibold text-violet-light hover:text-offwhite">
+          Beratung anfragen
+          <span aria-hidden className="transition-transform group-hover:translate-x-1">→</span>
+        </a>
+      </motion.aside>
+    </div>
+  );
+}

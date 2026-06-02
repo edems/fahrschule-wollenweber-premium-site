@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mockup · Fahrschule Wollenweber</title>
+  <style>
+    /* =========================================================
+       RESET & BASE
+       ========================================================= */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #0a0a14;
+      color: #F8F8FB;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+    button { font: inherit; color: inherit; background: none; border: none; cursor: pointer; }
+    a { color: inherit; text-decoration: none; }
+
+    /* =========================================================
+       BRAND TOKENS
+       ========================================================= */
+    :root {
+      --c-navy: #1A1A2E;
+      --c-navy-deep: #0a0a14;
+      --c-violet: #7C3AED;
+      --c-blue: #5B4FE9;
+      --c-offwhite: #F8F8FB;
+      --c-mute: rgba(248, 248, 251, 0.65);
+      --c-line: rgba(248, 248, 251, 0.12);
+      --c-glass: rgba(26, 26, 46, 0.55);
+      --c-glass-strong: rgba(10, 10, 20, 0.7);
+    }
+
+    /* =========================================================
+       HERO STAGE
+       ========================================================= */
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      min-height: 720px;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    /* Video layer */
+    .video-stage {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+    .video-stage video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 700ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .video-stage video.is-active { opacity: 1; }
+
+    /* Cinematic gradient overlay */
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background:
+        linear-gradient(180deg,
+          rgba(10, 10, 20, 0.55) 0%,
+          rgba(10, 10, 20, 0.25) 30%,
+          rgba(10, 10, 20, 0.15) 55%,
+          rgba(10, 10, 20, 0.85) 100%);
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse at 20% 50%,
+          rgba(91, 79, 233, 0.18) 0%,
+          transparent 60%);
+    }
+
+    /* =========================================================
+       TOP NAV
+       ========================================================= */
+    .topnav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 22px 48px;
+      backdrop-filter: blur(14px) saturate(140%);
+      -webkit-backdrop-filter: blur(14px) saturate(140%);
+      background: linear-gradient(180deg,
+        rgba(10, 10, 20, 0.55) 0%,
+        rgba(10, 10, 20, 0.15) 100%);
+      border-bottom: 1px solid var(--c-line);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      letter-spacing: 0.02em;
+    }
+    .brand-mark {
+      width: 36px;
+      height: 36px;
+      border-radius: 9px;
+      background: linear-gradient(135deg, var(--c-blue) 0%, var(--c-violet) 100%);
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      font-size: 16px;
+      color: var(--c-offwhite);
+      box-shadow: 0 6px 24px -8px rgba(124, 58, 237, 0.6);
+    }
+    .brand-name {
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+    .brand-sub {
+      font-size: 11px;
+      color: var(--c-mute);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-top: 1px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--c-mute);
+    }
+    .nav-links a {
+      position: relative;
+      transition: color 200ms;
+    }
+    .nav-links a:hover { color: var(--c-offwhite); }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -6px;
+      height: 1px;
+      background: var(--c-violet);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .nav-links a:hover::after { transform: scaleX(1); }
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      font-size: 13px;
+      font-weight: 600;
+      background: var(--c-offwhite);
+      color: var(--c-navy-deep);
+      border-radius: 999px;
+      transition: transform 200ms, box-shadow 200ms;
+    }
+    .nav-cta:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px -6px rgba(248, 248, 251, 0.4);
+    }
+
+    /* =========================================================
+       MODE CHIPS (Hero Switcher)
+       ========================================================= */
+    .mode-bar {
+      position: fixed;
+      top: 96px;
+      left: 0;
+      right: 0;
+      z-index: 40;
+      display: flex;
+      justify-content: center;
+      padding: 0 48px;
+    }
+    .mode-chips {
+      display: inline-flex;
+      gap: 6px;
+      padding: 6px;
+      background: var(--c-glass);
+      backdrop-filter: blur(18px) saturate(160%);
+      -webkit-backdrop-filter: blur(18px) saturate(160%);
+      border: 1px solid var(--c-line);
+      border-radius: 999px;
+    }
+    .mode-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--c-mute);
+      border-radius: 999px;
+      transition: color 250ms, background 250ms;
+      position: relative;
+    }
+    .mode-chip:hover { color: var(--c-offwhite); }
+    .mode-chip.is-active {
+      color: var(--c-offwhite);
+      background: linear-gradient(135deg, var(--c-blue) 0%, var(--c-violet) 100%);
+      box-shadow: 0 6px 20px -6px rgba(124, 58, 237, 0.7);
+    }
+    .mode-chip .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+      opacity: 0.7;
+    }
+
+    /* =========================================================
+       HERO CONTENT (HTML overlay)
+       ========================================================= */
+    .hero-content {
+      position: absolute;
+      inset: 0;
+      z-index: 10;
+      display: flex;
+      align-items: flex-end;
+      padding: 0 48px 96px 48px;
+    }
+    .hero-grid {
+      width: 100%;
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      align-items: end;
+      gap: 64px;
+    }
+    .hero-text { max-width: 720px; }
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--c-mute);
+      margin-bottom: 28px;
+    }
+    .hero-eyebrow .line {
+      width: 32px;
+      height: 1px;
+      background: var(--c-violet);
+    }
+    .hero-headline {
+      font-size: clamp(48px, 6.4vw, 96px);
+      font-weight: 700;
+      line-height: 1.02;
+      letter-spacing: -0.025em;
+      color: var(--c-offwhite);
+      margin-bottom: 24px;
+      min-height: 1.02em;
+    }
+    .hero-headline .accent {
+      background: linear-gradient(135deg, #9d7eff 0%, var(--c-violet) 60%, #5B4FE9 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-style: italic;
+      font-weight: 600;
+    }
+    .hero-subline {
+      font-size: 18px;
+      line-height: 1.55;
+      color: var(--c-mute);
+      max-width: 540px;
+      margin-bottom: 36px;
+    }
+    .hero-cta-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .cta-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 28px;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--c-offwhite);
+      background: linear-gradient(135deg, var(--c-blue) 0%, var(--c-violet) 100%);
+      border-radius: 999px;
+      box-shadow: 0 12px 32px -10px rgba(124, 58, 237, 0.6);
+      transition: transform 250ms, box-shadow 250ms;
+    }
+    .cta-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 40px -10px rgba(124, 58, 237, 0.7);
+    }
+    .cta-primary .arrow { transition: transform 250ms; }
+    .cta-primary:hover .arrow { transform: translateX(4px); }
+    .cta-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 24px;
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--c-offwhite);
+      border: 1px solid var(--c-line);
+      border-radius: 999px;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      background: rgba(255, 255, 255, 0.03);
+      transition: background 250ms, border-color 250ms;
+    }
+    .cta-ghost:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    /* Hero meta column */
+    .hero-meta {
+      align-self: end;
+      padding: 28px 32px;
+      background: var(--c-glass);
+      backdrop-filter: blur(18px) saturate(160%);
+      -webkit-backdrop-filter: blur(18px) saturate(160%);
+      border: 1px solid var(--c-line);
+      border-radius: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .meta-label {
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--c-mute);
+    }
+    .meta-value {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--c-offwhite);
+      line-height: 1.4;
+    }
+    .meta-divider {
+      height: 1px;
+      background: var(--c-line);
+    }
+    .meta-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .stat-num {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #c4b5fd 0%, var(--c-violet) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .stat-lbl {
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--c-mute);
+      margin-top: 2px;
+    }
+
+    /* =========================================================
+       SCROLL INDICATOR
+       ========================================================= */
+    .scroll-indicator {
+      position: absolute;
+      right: 48px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--c-mute);
+    }
+    .scroll-line {
+      width: 1px;
+      height: 60px;
+      background: linear-gradient(180deg, transparent 0%, var(--c-violet) 100%);
+      animation: scroll-pulse 2.4s ease-in-out infinite;
+    }
+    @keyframes scroll-pulse {
+      0%, 100% { opacity: 0.3; transform: scaleY(0.6); transform-origin: top; }
+      50% { opacity: 1; transform: scaleY(1); transform-origin: top; }
+    }
+
+    /* =========================================================
+       PROGRESS BAR (right edge)
+       ========================================================= */
+    .progress-rail {
+      position: fixed;
+      top: 96px;
+      bottom: 32px;
+      right: 20px;
+      width: 2px;
+      z-index: 30;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      width: 100%;
+      height: 20%;
+      background: linear-gradient(180deg, var(--c-blue) 0%, var(--c-violet) 100%);
+      border-radius: 2px;
+    }
+
+    /* =========================================================
+       MOCKUP FOOTER NOTE
+       ========================================================= */
+    .mockup-note {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      z-index: 100;
+      padding: 8px 14px;
+      background: rgba(124, 58, 237, 0.18);
+      border: 1px solid rgba(124, 58, 237, 0.4);
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #c4b5fd;
+    }
+
+    /* =========================================================
+       RESPONSIVE
+       ========================================================= */
+    @media (max-width: 1024px) {
+      .topnav { padding: 18px 24px; }
+      .nav-links { display: none; }
+      .mode-bar { padding: 0 24px; top: 84px; }
+      .mode-chips { overflow-x: auto; max-width: 100%; }
+      .mode-chip { padding: 8px 14px; font-size: 12px; }
+      .hero-content { padding: 0 24px 64px 24px; }
+      .hero-grid { grid-template-columns: 1fr; gap: 32px; }
+      .scroll-indicator { display: none; }
+      .hero-headline { font-size: 44px; }
+    }
+    @media (max-width: 600px) {
+      .topnav { padding: 16px 18px; }
+      .nav-cta { padding: 8px 14px; font-size: 12px; }
+      .brand-sub { display: none; }
+      .mode-chip { padding: 8px 12px; }
+      .mode-chip .label-long { display: none; }
+      .hero-cta-row { flex-direction: column; align-items: stretch; }
+      .cta-primary, .cta-ghost { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP NAV -->
+  <nav class="topnav">
+    <a class="brand" href="#">
+      <div class="brand-mark">W</div>
+      <div>
+        <div class="brand-name">Fahrschule Wollenweber</div>
+        <div class="brand-sub">Bad Marienberg · Hachenburg</div>
+      </div>
+    </a>
+    <div class="nav-links">
+      <a href="#klassen">Klassen</a>
+      <a href="#lernpfade">Lernpfade</a>
+      <a href="#team">Team</a>
+      <a href="#standorte">Standorte</a>
+      <a href="#kontakt">Kontakt</a>
+    </div>
+    <a href="#kontakt" class="nav-cta">Anmelden →</a>
+  </nav>
+
+  <!-- MODE BAR -->
+  <div class="mode-bar">
+    <div class="mode-chips" id="modeChips">
+      <button class="mode-chip is-active" data-mode="auto">
+        <span class="dot"></span> Auto
+      </button>
+      <button class="mode-chip" data-mode="motorrad">
+        <span class="dot"></span> <span class="label-long">Motorrad</span>
+      </button>
+      <button class="mode-chip" data-mode="lkw">
+        <span class="dot"></span> LKW
+      </button>
+      <button class="mode-chip" data-mode="landwirtschaft">
+        <span class="dot"></span> <span class="label-long">Landwirtschaft</span>
+      </button>
+      <button class="mode-chip" data-mode="bus">
+        <span class="dot"></span> Bus
+      </button>
+    </div>
+  </div>
+
+  <!-- PROGRESS RAIL -->
+  <div class="progress-rail" aria-hidden="true">
+    <div class="progress-fill"></div>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="video-stage" id="videoStage">
+      <video class="is-active" data-mode="auto"
+             src="hero-auto-v1.mp4"
+             autoplay muted loop playsinline preload="auto"></video>
+      <video data-mode="motorrad"
+             src="hero-motorrad-v1.mp4"
+             muted loop playsinline preload="metadata"></video>
+      <video data-mode="lkw"
+             src="hero-lkw-v1.mp4"
+             muted loop playsinline preload="metadata"></video>
+      <video data-mode="landwirtschaft"
+             src="hero-Landwirtschaft-v1.mp4"
+             muted loop playsinline preload="metadata"></video>
+      <video data-mode="bus"
+             src="hero-bus-v1.mp4"
+             muted loop playsinline preload="metadata"
+             onerror="this.style.display='none'"></video>
+    </div>
+
+    <div class="scroll-indicator">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+
+    <div class="hero-content">
+      <div class="hero-grid">
+        <div class="hero-text">
+          <div class="hero-eyebrow">
+            <span class="line"></span>
+            <span id="eyebrowText">Führerschein Klasse B · Westerwald</span>
+          </div>
+          <h1 class="hero-headline" id="headline">
+            Dein Weg.<br>
+            <span class="accent">Dein Tempo.</span><br>
+            Dein Führerschein.
+          </h1>
+          <p class="hero-subline" id="subline">
+            Lerne auf deinen Straßen – von der Stadt durch den Westerwald
+            bis zur Autobahn. Drei Fahrlehrer, zwei Standorte, ein Ziel:
+            du sitzt sicher am Steuer.
+          </p>
+          <div class="hero-cta-row">
+            <a href="#kontakt" class="cta-primary" id="ctaPrimary">
+              Klasse B starten <span class="arrow">→</span>
+            </a>
+            <a href="#klassen" class="cta-ghost">Alle Klassen</a>
+          </div>
+        </div>
+
+        <aside class="hero-meta">
+          <div>
+            <div class="meta-label">Aktueller Modus</div>
+            <div class="meta-value" id="modeValue">Auto</div>
+          </div>
+          <div class="meta-divider"></div>
+          <div class="meta-stats">
+            <div>
+              <div class="stat-num">3</div>
+              <div class="stat-lbl">Fahrlehrer</div>
+            </div>
+            <div>
+              <div class="stat-num">2</div>
+              <div class="stat-lbl">Standorte</div>
+            </div>
+            <div>
+              <div class="stat-num">20+</div>
+              <div class="stat-lbl">Klassen</div>
+            </div>
+            <div>
+              <div class="stat-num">24/7</div>
+              <div class="stat-lbl">Beratung</div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <div class="mockup-note">Mockup · Hero-Section</div>
+
+  <script>
+    /* =========================================================
+       MODE-SWITCH LOGIK
+       ========================================================= */
+    const MODES = {
+      auto: {
+        eyebrow: 'Führerschein Klasse B · Westerwald',
+        headline: ['Dein Weg.', '<span class="accent">Dein Tempo.</span>', 'Dein Führerschein.'],
+        subline: 'Lerne auf deinen Straßen – von der Stadt durch den Westerwald bis zur Autobahn. Drei Fahrlehrer, zwei Standorte, ein Ziel: du sitzt sicher am Steuer.',
+        cta: 'Klasse B starten',
+        label: 'Auto'
+      },
+      motorrad: {
+        eyebrow: 'Klassen AM · A1 · A2 · A',
+        headline: ['Freiheit', '<span class="accent">auf zwei</span>', 'Rädern.'],
+        subline: 'Vom Mofa bis zur offenen Motorradklasse – Susanne, Michael und Alexander bringen dir das Fahren auf zwei Rädern mit Ruhe und Präzision bei.',
+        cta: 'Motorrad-Klasse wählen',
+        label: 'Motorrad'
+      },
+      lkw: {
+        eyebrow: 'Klassen C1 · C1E · C · CE',
+        headline: ['Profi am', '<span class="accent">Steuer.</span>', 'Jeder Zentner.'],
+        subline: 'Berufskraftfahrer-Weiterbildung, LKW-Führerschein und mehr – für alle, die Verantwortung tragen und schwere Lasten sicher bewegen.',
+        cta: 'LKW-Ausbildung anfragen',
+        label: 'LKW'
+      },
+      landwirtschaft: {
+        eyebrow: 'Klassen L · T',
+        headline: ['Vom Hof', '<span class="accent">auf die</span>', 'Straße.'],
+        subline: 'Zugmaschinen und landwirtschaftliche Nutzung – wir bilden dich aus, damit Hof, Feld und Straße zusammengehören.',
+        cta: 'Klasse L/T anfragen',
+        label: 'Landwirtschaft'
+      },
+      bus: {
+        eyebrow: 'Klassen D1 · D1E · D · DE',
+        headline: ['Menschen', '<span class="accent">bewegen.</span>', 'Sicher ankommen.'],
+        subline: 'Omnibus-Klassen für den Personenverkehr – professionell, verantwortungsvoll und mit dem Wissen, das du für jede Fahrt brauchst.',
+        cta: 'Bus-Klasse anfragen',
+        label: 'Bus'
+      }
+    };
+
+    const chips = document.querySelectorAll('.mode-chip');
+    const videos = document.querySelectorAll('.video-stage video');
+    const eyebrow = document.getElementById('eyebrowText');
+    const headline = document.getElementById('headline');
+    const subline = document.getElementById('subline');
+    const cta = document.getElementById('ctaPrimary');
+    const modeValue = document.getElementById('modeValue');
+
+    function setMode(mode) {
+      if (!MODES[mode]) return;
+      const data = MODES[mode];
+
+      // Chip active state
+      chips.forEach(c => c.classList.toggle('is-active', c.dataset.mode === mode));
+
+      // Video crossfade
+      videos.forEach(v => {
+        const match = v.dataset.mode === mode;
+        v.classList.toggle('is-active', match);
+        if (match && v.paused) {
+          v.currentTime = 0;
+          v.play().catch(() => {});
+        }
+      });
+
+      // Text updates with subtle fade
+      [eyebrow, headline, subline, cta, modeValue].forEach(el => {
+        el.style.transition = 'opacity 200ms';
+        el.style.opacity = '0';
+      });
+      setTimeout(() => {
+        eyebrow.textContent = data.eyebrow;
+        headline.innerHTML = data.headline.join('<br>');
+        subline.textContent = data.subline;
+        cta.innerHTML = data.cta + ' <span class="arrow">→</span>';
+        modeValue.textContent = data.label;
+        [eyebrow, headline, subline, cta, modeValue].forEach(el => {
+          el.style.opacity = '1';
+        });
+      }, 220);
+    }
+
+    chips.forEach(chip => {
+      chip.addEventListener('click', () => setMode(chip.dataset.mode));
+    });
+
+    // Hover preview (optional): preload next video
+    chips.forEach(chip => {
+      chip.addEventListener('mouseenter', () => {
+        const v = document.querySelector(`video[data-mode="${chip.dataset.mode}"]`);
+        if (v) v.preload = 'auto';
+      });
+    });
+  </script>
+</body>
+</html>
