@@ -5,6 +5,11 @@ import TopNav from '@/components/nav/TopNav';
 import ScrollProgress from '@/components/ScrollProgress';
 import ScrollColorController from '@/components/ScrollColorController';
 
+const faviconPath =
+  process.env.GITHUB_PAGES === 'true'
+    ? '/fahrschule-wollenweber-premium-site/favicon.ico'
+    : '/favicon.ico';
+
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.fahrschule-wollenweber.de'),
   title: {
@@ -26,8 +31,8 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: 'Fahrschule Wollenweber GmbH' }],
   icons: {
-    icon: '/favicon.ico',
-    shortcut: '/favicon.ico',
+    icon: faviconPath,
+    shortcut: faviconPath,
   },
   openGraph: {
     title: 'Fahrschule Wollenweber · Dein Weg zum Führerschein im Westerwald',

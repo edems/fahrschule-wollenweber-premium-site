@@ -7,8 +7,8 @@ const nextConfig = {
     ? {
         // GitHub Pages-URL: https://<user>.github.io/<repo-name>/
         // Lokal bleibt die App unter / erreichbar; Pages bekommt den Repo-Subpath.
-        basePath: '/fahrschule-wollenweber-site',
-        assetPrefix: '/fahrschule-wollenweber-site/',
+        basePath: '/fahrschule-wollenweber-premium-site',
+        assetPrefix: '/fahrschule-wollenweber-premium-site/',
       }
     : {}),
   trailingSlash: true,
