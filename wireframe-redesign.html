@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wireframe · Fahrschule Wollenweber Redesign</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #0F0F1E;
+      color: #F8F8FB;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    /* Header */
+    .wire-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(15, 15, 30, 0.95);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(124, 58, 237, 0.2);
+      padding: 20px 0;
+    }
+    .wire-header h1 {
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+    .wire-header .meta {
+      font-size: 12px;
+      color: rgba(248, 248, 251, 0.55);
+      margin-top: 2px;
+    }
+    .wire-header .badges {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .wire-header .badge {
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(124, 58, 237, 0.15);
+      border: 1px solid rgba(124, 58, 237, 0.3);
+      color: #c4b5fd;
+    }
+    .wire-header .badge.green {
+      background: rgba(34, 197, 94, 0.15);
+      border-color: rgba(34, 197, 94, 0.3);
+      color: #86efac;
+    }
+
+    /* Funnel label */
+    .funnel-banner {
+      text-align: center;
+      padding: 24px;
+      background: linear-gradient(135deg, rgba(91, 79, 233, 0.08) 0%, rgba(124, 58, 237, 0.08) 100%);
+      border-bottom: 1px solid rgba(124, 58, 237, 0.15);
+      font-size: 13px;
+      color: rgba(248, 248, 251, 0.7);
+    }
+    .funnel-banner strong { color: #c4b5fd; }
+
+    /* Section */
+    .section-block {
+      margin: 32px auto;
+      max-width: 1400px;
+      padding: 0 32px;
+    }
+    .section {
+      position: relative;
+      border-radius: 24px;
+      padding: 28px;
+      border: 2px dashed rgba(124, 58, 237, 0.3);
+      transition: border-color 200ms;
+    }
+    .section:hover { border-color: rgba(124, 58, 237, 0.6); }
+
+    .section.dark {
+      background: #1A1A2E;
+      color: #F8F8FB;
+    }
+    .section.light {
+      background: #EDE9E1;
+      color: #1A1A2E;
+    }
+    .section.transition {
+      background: linear-gradient(180deg, transparent 0%, transparent 100%);
+      border-style: dotted;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 18px;
+      padding-bottom: 16px;
+      border-bottom: 1px dashed currentColor;
+    }
+    .section-num {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      font-size: 16px;
+      background: linear-gradient(135deg, #5B4FE9 0%, #7C3AED 100%);
+      color: #F8F8FB;
+      box-shadow: 0 6px 20px -6px rgba(124, 58, 237, 0.6);
+    }
+    .section.light .section-num { box-shadow: 0 6px 20px -6px rgba(91, 79, 233, 0.4); }
+    .section-title {
+      flex: 1;
+    }
+    .section-name {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+    .section.dark .section-name { color: #F8F8FB; }
+    .section.light .section-name { color: #1A1A2E; }
+    .section-sub {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-top: 3px;
+    }
+    .section.dark .section-sub { color: rgba(248, 248, 251, 0.6); }
+    .section.light .section-sub { color: rgba(26, 26, 46, 0.6); }
+
+    .section-id {
+      font-family: 'JetBrains Mono', 'SF Mono', monospace;
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: rgba(124, 58, 237, 0.12);
+      color: #c4b5fd;
+    }
+
+    /* Wireframe Boxes */
+    .wire-grid {
+      display: grid;
+      gap: 12px;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+    .wire-box {
+      padding: 14px 16px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px dashed rgba(255, 255, 255, 0.15);
+      font-size: 12.5px;
+    }
+    .section.light .wire-box {
+      background: rgba(255, 255, 255, 0.6);
+      border: 1px dashed rgba(26, 26, 46, 0.2);
+    }
+    .wire-box.hero {
+      grid-column: 1 / -1;
+      min-height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+    .wire-box.full {
+      grid-column: 1 / -1;
+    }
+    .wire-box h4 {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .section.dark .wire-box h4 { color: #c4b5fd; }
+    .section.light .wire-box h4 { color: #6D28D9; }
+    .wire-box p { color: inherit; opacity: 0.85; }
+
+    .cta-pill {
+      display: inline-block;
+      padding: 6px 12px;
+      background: linear-gradient(135deg, #5B4FE9 0%, #7C3AED 100%);
+      color: #F8F8FB;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+      margin: 4px 4px 4px 0;
+    }
+    .section.light .cta-pill {
+      background: linear-gradient(135deg, #5B4FE9 0%, #7C3AED 100%);
+    }
+    .section.light .cta-pill.outline {
+      background: transparent;
+      color: #1A1A2E;
+      border: 1px solid #1A1A2E;
+    }
+    .section.dark .cta-pill.outline {
+      background: transparent;
+      color: #F8F8FB;
+      border: 1px solid rgba(248, 248, 251, 0.3);
+    }
+    .section.dark .cta-pill.outline:hover { border-color: rgba(248, 248, 251, 0.6); }
+
+    /* Section-specific */
+    .stars {
+      color: #FBBC05;
+      letter-spacing: 2px;
+      font-size: 14px;
+    }
+    .video-thumb {
+      aspect-ratio: 16/9;
+      background: linear-gradient(135deg, #1A1A2E 0%, #0F0F1E 100%);
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      font-size: 11px;
+      color: rgba(248, 248, 251, 0.4);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .section.light .video-thumb {
+      background: linear-gradient(135deg, #1A1A2E 0%, #0F0F1E 100%);
+      color: rgba(248, 248, 251, 0.5);
+    }
+    .icon-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 8px;
+    }
+    .icon-pill {
+      padding: 6px 8px;
+      border-radius: 6px;
+      background: rgba(124, 58, 237, 0.12);
+      color: #c4b5fd;
+      font-size: 10.5px;
+      text-align: center;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+    .section.light .icon-pill {
+      background: rgba(91, 79, 233, 0.1);
+      color: #6D28D9;
+    }
+    .pill-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      max-height: 80px;
+      overflow: hidden;
+    }
+    .pill {
+      font-size: 10px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(124, 58, 237, 0.1);
+      color: #c4b5fd;
+      border: 1px solid rgba(124, 58, 237, 0.2);
+    }
+    .section.light .pill {
+      background: rgba(255, 255, 255, 0.7);
+      color: #1A1A2E;
+      border: 1px solid rgba(26, 26, 46, 0.15);
+    }
+
+    .cmp-list {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .cmp-list li {
+      list-style: none;
+      font-size: 11.5px;
+      padding-left: 16px;
+      position: relative;
+      color: inherit;
+      opacity: 0.8;
+    }
+    .cmp-list li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: #7C3AED;
+    }
+
+    /* Notes */
+    .notes {
+      margin-top: 16px;
+      padding: 12px 16px;
+      border-radius: 10px;
+      background: rgba(124, 58, 237, 0.08);
+      border: 1px solid rgba(124, 58, 237, 0.2);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+    .section.light .notes {
+      background: rgba(91, 79, 233, 0.06);
+      border-color: rgba(91, 79, 233, 0.18);
+    }
+    .notes strong { color: #c4b5fd; }
+    .section.light .notes strong { color: #6D28D9; }
+
+    /* Footer */
+    .wire-footer {
+      margin: 60px auto 40px;
+      max-width: 1400px;
+      padding: 32px;
+      background: rgba(15, 15, 30, 0.6);
+      border: 1px solid rgba(124, 58, 237, 0.2);
+      border-radius: 20px;
+      text-align: center;
+    }
+    .wire-footer h3 { font-size: 16px; margin-bottom: 12px; color: #c4b5fd; }
+    .wire-footer p { font-size: 13px; color: rgba(248, 248, 251, 0.7); max-width: 720px; margin: 0 auto 14px; }
+    .wire-footer .footer-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 18px;
+    }
+    .btn {
+      padding: 12px 24px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #5B4FE9 0%, #7C3AED 100%);
+      color: #F8F8FB;
+    }
+    .btn-ghost {
+      background: rgba(255, 255, 255, 0.05);
+      color: #F8F8FB;
+      border: 1px solid rgba(248, 248, 251, 0.2);
+    }
+
+    /* Branch indicator */
+    .branch-tag {
+      display: inline-block;
+      font-size: 10.5px;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: rgba(34, 197, 94, 0.15);
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      color: #86efac;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      margin-left: 8px;
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header class="wire-header">
+    <div class="container">
+      <h1>Wireframe · Fahrschule Wollenweber Redesign <span class="branch-tag">feature/redesign</span></h1>
+      <p class="meta">Geplant: 12 Sektionen, Conversion-Funnel aufgebaut · Branch: feature/redesign (Tag v1.0-stable = main)</p>
+      <div class="badges">
+        <span class="badge">Build-Modus</span>
+        <span class="badge green">Live-Site geschützt (main)</span>
+        <span class="badge">12 Sektionen</span>
+        <span class="badge">Mobile-First</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="funnel-banner">
+    <strong>Conversion-Funnel:</strong> Trust aufbauen → Persönlichkeit zeigen → Kompetenz beweisen → Anmeldung erleichtern
+  </div>
+
+  <!-- 01. HERO -->
+  <div class="section-block">
+    <section class="section dark">
+      <div class="section-head">
+        <div class="section-num">01</div>
+        <div class="section-title">
+          <div class="section-name">Hero</div>
+          <div class="section-sub">Dark · Fullscreen Video · 5 Modi · Snap-Scroll Mobile</div>
+        </div>
+        <span class="section-id">#top</span>
+      </div>
+
+      <div class="wire-grid">
+        <div class="wire-box hero">
+          📹 Fullscreen Video (Auto, Motorrad, LKW, Landwirtschaft, Bus)
+        </div>
+        <div class="wire-box">
+          <h4>Mode-Chips (Mobile: Snap-Scroll)</h4>
+          <p>5 Chips horizontal scrollbar, snap-center, Indicator-Punkte unten</p>
+          <p style="margin-top:6px; font-size:11px; opacity:0.6;">Desktop: 1 Reihe, mittig</p>
+        </div>
+        <div class="wire-box">
+          <h4>Headline</h4>
+          <p>3 Zeilen, Dynamische pro Mode. Mobile: clamp(38px, 10vw, 96px)</p>
+        </div>
+        <div class="wire-box">
+          <h4>Mobile Stats-Bar (nur sm:)</h4>
+          <p>3-Spalten-Pille, "20+ Klassen · 2 Standorte · 3 Fahrlehrer"</p>
+        </div>
+        <div class="wire-box full">
+          <h4>CTAs</h4>
+          <span class="cta-pill">Klasse B starten →</span>
+          <span class="cta-pill outline">☎ Anrufen: 02661 - 91 55 50</span>
+        </div>
+        <div class="wire-box full">
+          <h4>Eyebrow + Versprechen-Liste</h4>
+          <p>Badge mit "Klasse B · BF17" + 3 Bullet-Points mit Marken-Versprechen</p>
+        </div>
+        <div class="wire-box">
+          <h4>Stats-Card (Desktop, lg:)</h4>
+          <p>Modus + 3 Stats + Beratung-Link</p>
+        </div>
+      </div>
+
+      <div class="notes">
+        <strong>Mobile Fixes:</strong> Mode-Chips horizontal snap-scroll mit Indicator. Headline kleiner. Buttons full-width + größerer Touch-Target. Stats-Bar 3-Spalten kompakt.
+      </div>
+    </section>
+  </div>
+
+  <!-- 02. TRUST-BAR -->
+  <div class="section-block">
+    <section class="section light">
+      <div class="section-head">
+        <div class="section-num">02</div>
+        <div class="section-title">
+          <div class="section-name">Trust-Bar</div>
+          <div class="section-sub">Light · Schmal · Single-Line</div>
+        </div>
+        <span class="section-id">#trust</span>
+      </div>
+
+      <div class="wire-grid">
+        <div class="wire-box full">
+          <h4>5 Trust-Signale, single-line, full-width</h4>
+          <p>
+            <span class="stars">★ 5,0</span> &nbsp;·&nbsp;
+            322 Google-Bewertungen &nbsp;·&nbsp;
+            3 Fahrlehrer &nbsp;·&nbsp;
+            2 Standorte &nbsp;·&nbsp;
+            20+ Jahre Erfahrung
+          </p>
+        </div>
+      </div>
+
+      <div class="notes">
+        <strong>Zweck:</strong> Sofortiges Vertrauen nach Hero, bevor Personal/Kompetenz gezeigt wird. Single-line auf Desktop, 2-zeilig auf Mobile.
+      </div>
+    </section>
+  </div>
+
+  <!-- 03. TEAM -->
+  <div class="section-block">
+    <section class="section dark">
+      <div class="section-head">
+        <div class="section-num">03</div>
+        <div class="section-title">
+          <div class="section-name">Team prominent</div>
+          <div class="section-sub">Dark · 3 große Cards · Persönliche Sprüche</div>
+        </div>
+        <span class="section-id">#team</span>
+      </div>
+
+      <div class="wire-grid">
+        <div class="wire-box full">
+          <h4>Headline: "Familie Wollenweber — drei Fahrlehrer, eine Mission"</h4>
+        </div>
+        <div class="wire-box">
+          <h4>👨 Michael Wollenweber</h4>
+          <p>Alle Klassen · Inhaber seit 20+ Jahren</p>
+          <p style="font-style:italic; margin-top:6px;">"Dein Erfolg ist mir wichtig."</p>
+          <p style="font-size:11px; margin-top:6px;">Foto + Klassen-Badges</p>
+        </div>
+        <div class="wire-box">
+          <h4>👩 Susanne Wollenweber</h4>
+          <p>AM, A2, A1, A, B, B96, BE, L</p>
+          <p style="font-style:italic; margin-top:6px;">"Wir lehren Sicherheit und Selbstvertrauen."</p>
+        </div>
+        <div class="wire-box">
+          <h4>👨 Alexander Wollenweber</h4>
+          <p>Alle Klassen · Spezialist Berufskraftfahrer</p>
+          <p style="font-style:italic; margin-top:6px;">"Klare Linie, viel Geduld, ehrliches Feedback."</p>
+        </div>
+      </div>
+
+      <div class="notes">
+        <strong>Emotional:</strong> Persönliche Sprüche statt generischer Bios. Familienbande zeigen. 4:5 Fotos groß.
+      </div>
+    </section>
+  </div>
+
+  <!-- 04. BEWERTUNGEN -->
+  <div class="section-block">
+    <section class="section light">
+      <div class="section-head">
+        <div class="section-num">04</div>
+        <div class="section-title">
+          <div class="section-name">Bewertungen prominent</div>
+          <div class="section-sub">Light · 5,0 Hero-Stat · Personalisierte Reviews · 2 Google-Links</div>
+        </div>
+        <span class="section-id">#bewertungen</span>
+      </div>
+
+      <div class="wire-grid">
+        <div class="wire-box full" style="background: linear-gradient(135deg, #FFFBEB 0%, #FFF7E0 100%);">
+          <h4>Hero-Stat-Card</h4>
+          <p style="font-size: 32px; font-weight: 800;">
+            <span class="stars">★★★★★</span>
+            5,0 <span style="font-size:18px; opacity:0.6;">/ 5,0</span>
+          </p>
+          <p style="margin-top:6px;">Basierend auf 322 Google-Bewertungen</p>
+          <div style="margin-top:12px; display:grid; grid-template-columns:1fr 1fr; gap:8px; font-size:12px;">
+            <div><strong>Hachenburg</strong> · 5,0 (206)</div>
+            <div><strong>Bad Marienberg</strong> · 5,0 (116)</div>
+          </div>
+        </div>
+        <div class="wire-box">
+          <h4>Review 1: Arthur</h4>
+          <p class="stars">★★★★★</p>
+          <p style="font-style:italic; margin-top:6px;">"Ich kann die Fahrschule auf jeden Fall weiterempfehlen. Mein Fahrlehrerin hat alles immer ruhig und verständlich erklärt."</p>
+        </div>
+        <div class="wire-box">
+          <h4>Review 2: Albion Tahiraj</h4>
+          <p class="stars">★★★★★</p>
+          <p style="font-style:italic; margin-top:6px;">"Vom ersten Kontakt bis zur Prüfung hat einfach alles perfekt gepasst."</p>
+        </div>
+        <div class="wire-box">
+          <h4>Review 3: Валерия Бублик</h4>
+          <p class="stars">★★★★★</p>
+          <p style="font-style:italic; margin-top:6px;">"Dank ihr habe ich mich beim ersten Mal sicher genug gefühlt."</p>
+        </div>
+        <div class="wire-box full">
+          <h4>Google Maps CTA — 2 separate Buttons</h4>
+          <span class="cta-pill">⭐ Hachenburg · 206 Bewertungen</span>
+          <span class="cta-pill outline">⭐ Bad Marienberg · 116 Bewertungen</span>
+        </div>
+      </div>
+
+      <div class="notes">
+        <strong>Vertrauen:</strong> Reviews mit personalisierten Lehrer-Bezügen. Reviews-Hero-Stat auf warmem Gelb-Cream-Gradient (Sterne prominent).
+      </div>
+    </section>
+  </div>
+
+  <!-- 05. KLASSEN-HUB -->
+  <div class="section-block">
+    <section class="section light">
+      <div class="section-head">
+        <div class="section-num">05</div>
+        <div class="section-title">
+          <div class="section-name">Klassen-Hub</div>
+          <div class="section-sub">Light · 6 Tabs · 20 Klassen · 3D Card-Tilt</div>
+        </div>
+        <span class="section-id">#klassen</span>
+      </div>
+
+      <div class="wire-grid">
+        <div class="wire-box full">
+          <h4>6 Tabs</h4>
+          <div class="icon-grid">
+            <div class="icon-pill">🏍 Motorrad</div>
+            <div class="icon-pill">🚗 Auto</div>
+            <div class="icon-pill">🚚 LKW</div>
+            <div class="icon-pill">🚌 Bus</div>
+            <div class="icon-pill">🚜 Landwirtschaft</div>
+            <div class="icon-pill">📜 Seminare</div>
+          </div>
+        </div>
+        <div class="wire-box">
+          <h4>Klassen-Card (Bsp. B)</h4>
+          <p style="display:inline-block; padding:4px 10px; background:#7C3AED; color:#fff; border-radius:999px; font-size:11px; font-weight:700;">B</p>
+          <p style="margin-top:6px;">Auto · Klassischer Autoführerschein</p>
+        </div>
+        <div class="wire-box">
+          <h4>Hover-Effekt</h4>
+          <p>3D-Tilt basierend auf Maus-Position, Spring-Physics</p>
+        </div>
+      </div>
+
+      <div class="notes">
+        <strong>Kompetenz:</strong> 20 Klassen, sauber strukturiert. Mobile: 2-Spalten-Grid, Tab-Wrap erlaubt.
+      </div>
+    </section>
+  </div>
+
+  <!-- 06. SPEZIALLEISTUNGEN -->
+  <div class="section-block">
+    <section class="section light">
+      <div class="section-head">
+        <div class="section-num">06</div>
+        <div class="section-title">
+          <div class="section-name">Spezialleistungen</div>
+          <div class="section-sub">Light · 6 visuelle Cards · BKrFQG anerkannt</div>
+        </div>
+        <span class="section-id">#spezialleistungen</span>
+      </div>
+
+      <div class="wire-grid">
+        <div class="wire-box">
+          <h4>🏅 BF17</h4>
+          <p>Begleitetes Fahren ab 17</p>
+        </div>
+        <div class="wire-box">
+          <h4>🚛 BKrFQG</h4>
+          <p>Berufskraftfahrer-Weiterbildung, 5 Module à 7h, anerkannt</p>
+        </div>
+        <div class="wire-box">
+          <h4>🏗 Staplerschein</h4>
+          <p>DGUV-konform, 1-2 Tage</p>
+        </div>
+        <div class="wire-box">
+          <h4>⚙️ Baumaschinenführer</h4>
+          <p>Bagger, Radlader, Teleskoplader</p>
+        </div>
+        <div class="wire-box">
+          <h4>⚠️ ASF</h4>
+          <p>Aufbauseminare, 4 Sitzungen + 1 Fahrprobe</p>
+        </div>
+        <div class="wire-box">
+          <h4>🎓 FES</h4>
+          <p>Fahreignungsseminar, Punkteabbau</p>
+        </div>
+      </div>
+
+      <div class="notes">
+        <strong>Anders als aktuell:</strong> Visuelle Cards statt Tabs. Jede Card zeigt Icon + Titel + Kurzbeschreibung + Zertifizierung. Mobile: 1-Spalte.
+      </div>
+    </section>
+  </div>
+
+  <!-- 07. MODERNER FUHRPARK -->
+  <div class="section-block">
+    <section class="section dark">
+      <div class="section-head">
+        <div class="section-num">07</div>
+        <div class="section-title">
+          <div class="section-name">Moderner Fuhrpark</div>
+          <div class="section-sub">Dark · 5 Video-Loop-Cards · Hero-Videos als Loop</div>
+        </div>
+        <span class="section-id">#fuhrpark</span>
+      </div>
+
+      <div class="wire-grid">
+        <div class="wire-box hero" style="background: linear-gradient(135deg, rgba(91, 79, 233, 0.1) 0%, rgba(124, 58, 237, 0.06) 100%);">
+          "Modern, gewartet, sicher. Dein Schulungsfahrzeug."
+        </div>
+        <div class="wire-box">
+          <div class="video-thumb">Auto-Loop</div>
+          <p style="margin-top:6px;">🚗 Pkw · Klasse B</p>
+        </div>
+        <div class="wire-box">
+          <div class="video-thumb">Motorrad-Loop</div>
+          <p style="margin-top:6px;">🏍 Motorrad · A1/A2/A</p>
+        </div>
+        <div class="wire-box">
+          <div class="video-thumb">LKW-Loop</div>
+          <p style="margin-top:6px;">🚚 LKW · C/CE</p>
+        </div>
+        <div class="wire-box">
+          <div class="video-thumb">Bus-Loop</div>
+          <p style="margin-top:6px;">🚌 Bus · D/DE</p>
+        </div>
+        <div class="wire-box">
+          <div class="video-thumb">Traktor-Loop</div>
+          <p style="margin-top:6px;">🚜 Traktor · L/T</p>
+        </div>
+        <div class="wire-box full">
+          <h4>Trust-Subline</h4>
+          <p>"Unsere Fahrzeuge werden regelmäßig gewartet, geprüft und auf dem neuesten Stand gehalten. Du lernst auf modernen Schulungsfahrzeugen mit aktueller Sicherheitstechnik."</p>
+        </div>
+      </div>
+
+      <div class="notes">
+        <strong>Vertrauen vertiefen:</strong> Zeigt "modern, gewartet, sicher" — die Fahrzeuge sind die stillen Helden der Ausbildung. Videos loopen auf den Hero-Videos.
+      </div>
+    </section>
+  </div>
+
+  <!-- 08. ERFAHRUNG & ZERTIFIZIERUNGEN -->
+  <div class="section-block">
+    <section class="section light">
+      <div class="section-head">
+        <div class="section-num">08</div>
+        <div class="section-title">
+          <div class="section-name">Erfahrung & Zertifizierungen</div>
+          <div class="section-sub">Light · Trust-Badges · "Die Besten vor Ort"</div>
+        </div>
+        <span class="section-id">#zertifizierungen</span>
+      </div>
+
+      <div class="wire-grid">
+        <div class="wire-box full">
+          <h4>Headline: "Die Besten vor Ort — mit Erfahrung, die zählt."</h4>
+        </div>
+        <div class="wire-box">
+          <h4>🏆 20+ Jahre</h4>
+          <p>im Westerwald etabliert</p>
+        </div>
+        <div class="wire-box">
+          <h4>✅ Fahrlehrer-Erlaubnis</h4>
+          <p>Verbandsgemeinde Bad Marienberg, Ordnungsamt</p>
+        </div>
+        <div class="wire-box">
+          <h4>📜 BKrFQG anerkannt</h4>
+          <p>Berufskraftfahrer-Weiterbildung, Schlüsselzahl 95</p>
+        </div>
+        <div class="wire-box">
+          <h4>👨‍👩‍👦 3 Fahrlehrer-Familie</h4>
+          <p>Michael, Susanne, Alexander Wollenweber</p>
+        </div>
+        <div class="wire-box">
+          <h4>🏢 HRB 22962</h4>
+          <p>Amtsgericht Montabaur</p>
+        </div>
+        <div class="wire-box">
+          <h4>🤝 Fahrlehrerverband</h4>
+          <p>Mitglied im Berufsverband</p>
+        </div>
+      </div>
+
+      <div class="notes">
+        <strong>Trust vertiefen:</strong> 6 Trust-Badges, jeder mit klarem Statement. "Die Besten vor Ort" als emotionale Botschaft.
+      </div>
+    </section>
+  </div>
+
+  <!-- 09. STANDORTE -->
+  <div class="section-block">
+    <section class="section light">
+      <div class="section-head">
+        <div class="section-num">09</div>
+        <div class="section-title">
+          <div class="section-name">Standorte</div>
+          <div class="section-sub">Light · 2 Cards · WhatsApp-Hinweis · "Wir kommen auch zu dir"</div>
+        </div>
+        <span class="section-id">#standorte</span>
+      </div>
+
+      <div class="wire-grid">
+        <div class="wire-box">
+          <h4>Bad Marienberg</h4>
+          <p>Neuer Weg 3, 56470</p>
+          <p>Theorie: Mo & Mi 18:00-19:30</p>
+          <p>📞 02661 - 91 55 50</p>
+          <p>📱 WhatsApp: 0170 476 99 11</p>
+        </div>
+        <div class="wire-box">
+          <h4>Hachenburg</h4>
+          <p>Herderstraße 15, 57627</p>
+          <p>Theorie: Mo & Mi 18:00-19:30</p>
+          <p>📞 02661 - 91 55 50</p>
+          <p>📱 WhatsApp: 0170 476 99 11</p>
+        </div>
+        <div class="wire-box full">
+          <h4>Vertrauens-Botschaft</h4>
+          <p>"Wir kommen auch zu dir — sprich uns an, wir holen dich ab."</p>
+        </div>
+      </div>
+
+      <div class="notes">
+        <strong>Erreichbarkeit:</strong> WhatsApp prominent. "Wir kommen auch zu dir" signalisiert Service-Mentalität und reduziert die Hemmschwelle.
+      </div>
+    </section>
+  </div>
+
+  <!-- 10. KONTAKT -->
+  <div class="section-block">
+    <section class="section light">
+      <div class="section-head">
+        <div class="section-num">10</div>
+        <div class="section-title">
+          <div class="section-name">Kontakt</div>
+          <div class="section-sub">Light · Multi-Channel · "Keine Angst, wir beraten gerne"</div>
+        </div>
+        <span class="section-id">#kontakt</span>
+      </div>
+
+      <div class="wire-grid">
+        <div class="wire-box full">
+          <h4>Headline: "Bereit loszufahren?"</h4>
+          <p style="font-style:italic; color: #6D28D9;">"Keine Angst, wir beraten gerne — kostenlos und unverbindlich."</p>
+        </div>
+        <div class="wire-box full">
+          <h4>Multi-Channel — 4 Wege, einer ist deiner</h4>
+          <span class="cta-pill">📞 Anrufen: 02661 - 91 55 50</span>
+          <span class="cta-pill">📱 WhatsApp schreiben</span>
+          <span class="cta-pill">✉️ E-Mail senden</span>
+          <span class="cta-pill outline">📅 Online Terminbuchung (Kalender)</span>
+        </div>
+        <div class="wire-box">
+          <h4>2-Spalten Layout</h4>
+          <p>Links: Monats-Kalender (echter Kalender, Wochenenden disabled)</p>
+        </div>
+        <div class="wire-box">
+          <h4>Formular</h4>
+          <p>Rechts: 8 Felder, mailto-Fallback</p>
+          <ul class="cmp-list" style="margin-top:8px;">
+            <li>Vorname, Nachname, Telefon, E-Mail</li>
+            <li>Klasse, Standort, Nachricht, Wunschtermin</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="notes">
+        <strong>Conversion:</strong> 4 Kontaktwege prominent. "Keine Angst, wir beraten gerne" reduziert Hemmschwelle. WhatsApp = Mobile-First.
+      </div>
+    </section>
+  </div>
+
+  <!-- 11. REGIONEN -->
+  <div class="section-block">
+    <section class="section light">
+      <div class="section-head">
+        <div class="section-num">11</div>
+        <div class="section-title">
+          <div class="section-name">Regionen (SEO-Liferaft)</div>
+          <div class="section-sub">Light · 81 Orte · Pill-Cloud</div>
+        </div>
+        <span class="section-id">#regionen</span>
+      </div>
+
+      <div class="wire-grid">
+        <div class="wire-box full">
+          <h4>Headline: "Wir bilden dich aus, wo du wohnst."</h4>
+          <p>81 Orte im Westerwald</p>
+        </div>
+        <div class="wire-box full">
+          <h4>Pill-Cloud (alle Orte)</h4>
+          <div class="pill-cloud">
+            <span class="pill">Ailertchen</span>
+            <span class="pill">Alpenrod</span>
+            <span class="pill">Astert</span>
+            <span class="pill">Atzelgift</span>
+            <span class="pill">Bad Marienberg</span>
+            <span class="pill">Bellingen</span>
+            <span class="pill">Berod</span>
+            <span class="pill">Bölsberg</span>
+            <span class="pill">Borod</span>
+            <span class="pill">Bretthausen</span>
+            <span class="pill">Daaden</span>
+            <span class="pill">Dreifelden</span>
+            <span class="pill">Dreisbach</span>
+            <span class="pill">Eichenstruht</span>
+            <span class="pill">Eichenstruth</span>
+            <span class="pill">Elkenroth</span>
+            <span class="pill">Emmerichenhain</span>
+            <span class="pill">Enspel</span>
+            <span class="pill">+ 63 weitere</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="notes">
+        <strong>SEO:</strong> 81 Orte = Long-Tail-Traffic. Schmaler als aktuell, weiter oben im Funnel.
+      </div>
+    </section>
+  </div>
+
+  <!-- 12. FOOTER -->
+  <div class="section-block">
+    <section class="section dark">
+      <div class="section-head">
+        <div class="section-num">12</div>
+        <div class="section-title">
+          <div class="section-name">Footer</div>
+          <div class="section-sub">Dark · 4 Spalten · Impressum/Datenschutz/AGB</div>
+        </div>
+        <span class="section-id">(kein #id)</span>
+      </div>
+
+      <div class="wire-grid">
+        <div class="wire-box">
+          <h4>Brand-Spalte</h4>
+          <p>Logo + Brand-Name + Tagline + Social-Links (Facebook, Google Maps)</p>
+        </div>
+        <div class="wire-box">
+          <h4>Klassen</h4>
+          <p>6 Kategorien als Liste</p>
+        </div>
+        <div class="wire-box">
+          <h4>Standorte</h4>
+          <p>Bad Marienberg + Hachenburg mit Adressen</p>
+        </div>
+        <div class="wire-box">
+          <h4>Kontakt</h4>
+          <p>Festnetz + Mobil + E-Mail</p>
+        </div>
+        <div class="wire-box full">
+          <h4>Footer-CTA-Strip</h4>
+          <p>"Bereit loszufahren? Dein Weg zum Führerschein — mit Wollenweber." + Termin-anfragen + Anrufen-Buttons</p>
+        </div>
+        <div class="wire-box full">
+          <h4>Meta-Zeile</h4>
+          <p>© 2026 Fahrschule-Wollenweber GmbH · Impressum · Datenschutz · AGB</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="wire-footer">
+    <h3>Wireframe v1.0 · feature/redesign Branch</h3>
+    <p>12 Sektionen, Conversion-Funnel: Trust → Persönlichkeit → Kompetenz → Vertrauen vertiefen → Konversion → SEO. Theme-Pattern: D L L D L L D L L L L D (3 helle Cluster, klar getrennt durch dunkle Anker). Light-zu-Light hat keinen Übergang. Mobile Mode-Chips: Snap-Scroll. Body-Scroll-Color-Animation als smooth-Übergang.</p>
+    <p style="font-size:11px; opacity:0.6;">Live-Site (main) ist geschützt durch Tag v1.0-stable auf Commit 6c54b4c. Rollback jederzeit möglich.</p>
+
+    <div class="footer-actions">
+      <button class="btn btn-primary" onclick="window.print()">Wireframe drucken / PDF</button>
+      <a href="/Users/userlow/Documents/projekte/wollnweber_opencode/wireframe-redesign.html" class="btn btn-ghost" style="text-decoration:none;">Lokal öffnen</a>
+    </div>
+
+    <p style="margin-top:24px; font-size:12px;">
+      <strong style="color:#c4b5fd;">Review-Flow:</strong> Wireframe sichten → Feedback geben → Freigabe → Implementation auf feature/redesign Branch → Testen → Merge zu main
+    </p>
+  </div>
+</body>
+</html>
