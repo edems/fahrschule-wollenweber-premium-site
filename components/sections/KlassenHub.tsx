@@ -2,8 +2,9 @@
 
 import { useState, useRef } from 'react';
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import Image from 'next/image';
 import { KATEGORIEN } from '@/lib/klassen';
-import { ICON_MAP } from '@/components/icons/KlassenIcons';
+import { KLASSEN_ICON_MAP } from '@/components/icons/KlassenIcons';
 import SectionHeader from '@/components/ui/SectionHeader';
 
 type KatId = (typeof KATEGORIEN)[number]['id'];
@@ -11,10 +12,10 @@ type KatId = (typeof KATEGORIEN)[number]['id'];
 export default function KlassenHub() {
   const [active, setActive] = useState<KatId>('auto');
   const aktiveKat = KATEGORIEN.find((k) => k.id === active)!;
-  const Icon = ICON_MAP[aktiveKat.iconKey];
+  const activeIcon = KLASSEN_ICON_MAP[aktiveKat.iconKey];
 
   return (
-    <section id="klassen" className="section section-light transition-to-dark relative">
+    <section id="klassen" className="section section-light relative">
       <div className="container-page relative">
         <SectionHeader
           eyebrow="Führerscheinklassen"
@@ -36,7 +37,6 @@ export default function KlassenHub() {
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
         >
           {KATEGORIEN.map((k) => {
-            const TabIcon = ICON_MAP[k.iconKey];
             const isActive = k.id === active;
             return (
               <button
@@ -48,7 +48,14 @@ export default function KlassenHub() {
                 onClick={() => setActive(k.id)}
                 className={`klasse-tab ${isActive ? 'is-active' : ''}`}
               >
-                <TabIcon className="h-4 w-4 shrink-0" />
+                <img
+                  src={KLASSEN_ICON_MAP[k.iconKey]}
+                  alt=""
+                  aria-hidden="true"
+                  className="klasse-tab-icon"
+                  width={20}
+                  height={20}
+                />
                 <span>{k.label}</span>
               </button>
             );
@@ -74,14 +81,16 @@ export default function KlassenHub() {
                   initial={{ scale: 0.8, rotate: -10 }}
                   animate={{ scale: 1, rotate: 0 }}
                   transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                  className="grid h-14 w-14 place-items-center rounded-2xl"
-                  style={{
-                    background: 'linear-gradient(135deg, rgba(91, 79, 233, 0.15) 0%, rgba(124, 58, 237, 0.15) 100%)',
-                    color: '#7C3AED',
-                    border: '1px solid rgba(124, 58, 237, 0.3)',
-                  }}
+                  className="klasse-icon-wrap"
                 >
-                  <Icon className="h-7 w-7" />
+                  <img
+                    src={activeIcon}
+                    alt=""
+                    aria-hidden="true"
+                    className="klasse-icon-img"
+                    width={48}
+                    height={48}
+                  />
                 </motion.div>
                 <div>
                   <div className="eyebrow mb-1">Kategorie</div>
@@ -133,6 +142,42 @@ export default function KlassenHub() {
           background: linear-gradient(135deg, #5B4FE9 0%, #7C3AED 100%);
           border-color: transparent;
           box-shadow: 0 6px 20px -6px rgba(124, 58, 237, 0.7);
+        }
+        .klasse-tab.is-active .klasse-tab-icon {
+          /* Active state: invert so icon stays visible on violet bg */
+          filter: brightness(0) invert(1);
+        }
+        :global(.klasse-tab-icon) {
+          width: 20px;
+          height: 20px;
+          flex-shrink: 0;
+          object-fit: contain;
+        }
+        .klasse-icon-wrap {
+          display: grid;
+          place-items: center;
+          width: 64px;
+          height: 64px;
+          border-radius: 18px;
+          background: linear-gradient(135deg, rgba(91, 79, 233, 0.12) 0%, rgba(124, 58, 237, 0.12) 100%);
+          border: 1px solid rgba(124, 58, 237, 0.25);
+          flex-shrink: 0;
+        }
+        :global(.klasse-icon-img) {
+          width: 44px;
+          height: 44px;
+          object-fit: contain;
+        }
+        @media (max-width: 480px) {
+          .klasse-icon-wrap {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+          }
+          :global(.klasse-icon-img) {
+            width: 36px;
+            height: 36px;
+          }
         }
       `}</style>
     </section>
@@ -214,3 +259,4 @@ function KlasseCard({ k }: { k: { code: string; name: string; beschreibung: stri
     </motion.a>
   );
 }
+
