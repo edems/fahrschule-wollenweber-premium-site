@@ -20,7 +20,30 @@ export default function VideoStage({ active }: Props) {
   const [reducedMotion, setReducedMotion] = useState(false);
   const [allowAdjacentPreload, setAllowAdjacentPreload] = useState(false);
   const stageRef = useRef<HTMLDivElement>(null);
+  const activeRef = useRef(active);
+  const reducedMotionRef = useRef(reducedMotion);
   const reduce = useReducedMotion();
+
+  useEffect(() => {
+    activeRef.current = active;
+  }, [active]);
+
+  useEffect(() => {
+    reducedMotionRef.current = reducedMotion;
+  }, [reducedMotion]);
+
+  const playActiveVideo = async () => {
+    if (reducedMotionRef.current) return true;
+    const v = refs.current[activeRef.current];
+    if (!v) return false;
+    v.classList.add('is-active');
+    try {
+      await v.play();
+      return true;
+    } catch {
+      return false;
+    }
+  };
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -49,7 +72,7 @@ export default function VideoStage({ active }: Props) {
         v.classList.add('is-active');
         if (v.paused) {
           v.currentTime = 0;
-          v.play().catch(() => undefined);
+          playActiveVideo();
         }
       } else if (id === active && reducedMotion) {
         v.classList.add('is-active', 'is-paused');
@@ -58,6 +81,33 @@ export default function VideoStage({ active }: Props) {
       }
     });
   }, [active, reducedMotion]);
+
+  useEffect(() => {
+    if (typeof document === 'undefined') return;
+
+    let unlocked = false;
+    const unlock = () => {
+      if (unlocked) return;
+      playActiveVideo().then((played) => {
+        if (!played) return;
+        unlocked = true;
+        events.forEach((event) => {
+          document.removeEventListener(event, unlock, true);
+        });
+      });
+    };
+    const events = ['pointerdown', 'touchstart', 'click', 'keydown'];
+
+    events.forEach((event) => {
+      document.addEventListener(event, unlock, { capture: true, passive: true });
+    });
+
+    return () => {
+      events.forEach((event) => {
+        document.removeEventListener(event, unlock, true);
+      });
+    };
+  }, []);
 
   useEffect(() => {
     if (!allowAdjacentPreload) return;
