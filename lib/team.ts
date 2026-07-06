@@ -48,7 +48,6 @@ export const TEAM: TeamMember[] = [
     erfahrung: 'Alle Klassen',
     highlights: [
       'Alle Klassen',
-      'Seminare',
       'Seminarleiter ASF und FES',
       'LKW & Bus',
     ],
