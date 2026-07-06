@@ -25,11 +25,11 @@ export const BRAND_VERSPRECHEN = [
 export const MODES: Record<ModeId, ModeConfig> = {
   auto: {
     id: 'auto',
-    label: 'Auto',
+    label: 'PKW',
     video: 'videos/hero-auto-v1.mp4',
     videoMobile: 'videos/mobile/hero-auto-v1-mobile.mp4',
     poster: 'videos/mobile/hero-auto-v1-poster.webp',
-    badge: 'Klasse B · BF17',
+    badge: 'B197 · BF17 · BE · B96',
     headline: ['Dein Weg', 'zum Führerschein.', 'Im Westerwald.'],
     versprechen: [
       'Vom klassischen Autoführerschein bis BF17',
@@ -50,7 +50,7 @@ export const MODES: Record<ModeId, ModeConfig> = {
     video: 'videos/hero-motorrad-v1.mp4',
     videoMobile: 'videos/mobile/hero-motorrad-v1-mobile.mp4',
     poster: 'videos/mobile/hero-motorrad-v1-poster.webp',
-    badge: 'AM · A1 · A2 · A',
+    badge: 'AM · A1 · B196 · A2 · A',
     headline: ['Freiheit', 'auf zwei Rädern.', 'Kurvig, ehrlich.'],
     versprechen: [
       'Vom Mofa bis zur offenen Motorradklasse',

@@ -21,6 +21,7 @@ export const KATEGORIEN: Kategorie[] = [
       { code: 'AM', name: 'Kleinkraftrad', beschreibung: 'Einstieg in motorisierte Zweiräder.' },
       { code: 'M', name: 'Mofa', beschreibung: 'Mofa und frühe Mobilität.' },
       { code: 'A1', name: 'Leichtkraftrad', beschreibung: 'Motorrad bis 125 cm³.' },
+      { code: 'B196', name: '125er-Erweiterung', beschreibung: 'Leichtkraftrad-Erweiterung für Klasse-B-Inhaber.' },
       { code: 'A2', name: 'Stufenaufstieg', beschreibung: 'Motorrad bis 35 kW.' },
       { code: 'A', name: 'Offene Klasse', beschreibung: 'Motorrad ohne Leistungsgrenze.' },
     ],
@@ -31,6 +32,7 @@ export const KATEGORIEN: Kategorie[] = [
     iconKey: 'auto',
     klassen: [
       { code: 'B', name: 'Auto', beschreibung: 'Klassischer Autoführerschein.' },
+      { code: 'B197', name: 'Automatik mit Schaltkompetenz', beschreibung: 'Automatik-Ausbildung mit späterer Schaltwagen-Option.' },
       { code: 'BF17', name: 'Begleitetes Fahren', beschreibung: 'Führerschein ab 17.', lang: 'Begleitetes Fahren ab 17 Jahren' },
       { code: 'B96', name: 'Auto mit Anhänger', beschreibung: 'Mehr Anhängelast ohne BE.' },
       { code: 'BE', name: 'Große Anhänger', beschreibung: 'Anhängerkombinationen.' },
