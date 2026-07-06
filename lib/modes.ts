@@ -32,7 +32,7 @@ export const MODES: Record<ModeId, ModeConfig> = {
     badge: 'B197 · BF17 · BE · B96',
     headline: ['Dein Weg', 'zum Führerschein.', 'Im Westerwald.'],
     versprechen: [
-      'Vom klassischen Autoführerschein bis BF17',
+      'Vom klassischen Autoführerschein bis B197',
       'Michael, Susanne & Alexander bilden dich aus',
       'Lerne auf deinen Straßen, nicht auf fremden',
     ],
@@ -54,7 +54,7 @@ export const MODES: Record<ModeId, ModeConfig> = {
     headline: ['Freiheit', 'auf zwei Rädern.', 'Kurvig, ehrlich.'],
     versprechen: [
       'Vom Mofa bis zur offenen Motorradklasse',
-      'Spezialistin Susanne für A-Klassen',
+      'Spezialist Michael für A-Klassen',
       'Sicherheit und Selbstvertrauen von Anfang an',
     ],
     cta: 'Motorrad-Klasse wählen',
@@ -74,7 +74,7 @@ export const MODES: Record<ModeId, ModeConfig> = {
     badge: 'C1 · C1E · C · CE',
     headline: ['Profi am Steuer.', 'Jeder Zentner.', 'Sicher unterwegs.'],
     versprechen: [
-      'Berufskraftfahrer-Weiterbildung (BKrFQG)',
+      'Berufskraftfahrer-Weiterbildung',
       'Vom leichten C1 bis zum schweren Lastzug CE',
       'Verantwortung lernen, die trägt',
     ],
