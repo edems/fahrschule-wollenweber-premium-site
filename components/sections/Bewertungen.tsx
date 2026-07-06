@@ -176,18 +176,6 @@ function ReviewCard({ review }: { review: typeof REVIEWS[number] }) {
         „{review.text}"
       </blockquote>
 
-      <div
-        className="mb-4 inline-flex items-center gap-1.5 self-start rounded-full px-3 py-1.5"
-        style={{
-          background: 'linear-gradient(135deg, rgba(91, 79, 233, 0.1) 0%, rgba(124, 58, 237, 0.08) 100%)',
-          border: '1px solid rgba(124, 58, 237, 0.2)',
-        }}
-      >
-        <span style={{ fontSize: 11, color: '#6D28D9', fontWeight: 600 }}>
-          ✦ {review.lehrerBezug}
-        </span>
-      </div>
-
       <div className="flex items-center gap-3 border-t pt-4" style={{ borderColor: 'rgba(26, 26, 46, 0.08)' }}>
         <div
           className="grid h-10 w-10 shrink-0 place-items-center rounded-full text-[13px] font-bold text-offwhite"
@@ -200,9 +188,6 @@ function ReviewCard({ review }: { review: typeof REVIEWS[number] }) {
         </div>
         <div className="flex-1">
           <div className="text-[14px] font-semibold" style={{ color: 'var(--c-navy)' }}>{review.name}</div>
-          <div className="text-[12px]" style={{ color: 'rgba(26, 26, 46, 0.6)' }}>
-            {review.datum}{review.klasse ? ` · Klasse ${review.klasse}` : ''}
-          </div>
         </div>
       </div>
 
