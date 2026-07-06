@@ -112,11 +112,11 @@ export default function HeroContent({ active }: Props) {
             </AnimatePresence>
           </a>
           <a
-            href={`tel:${HAUPTNUMMER.festnetzTel}`}
+            href={`tel:${HAUPTNUMMER.mobilTel}`}
             className="premium-press premium-edge btn-call w-full justify-center !px-6 !py-4 sm:w-auto"
           >
-            <span aria-hidden>📞</span>
-            Anrufen: {HAUPTNUMMER.festnetz}
+            <span aria-hidden>📱</span>
+            Mobil: {HAUPTNUMMER.mobil}
           </a>
         </div>
 
@@ -133,17 +133,6 @@ export default function HeroContent({ active }: Props) {
               <span>Keine Angst vor dem ersten Schritt — wir beraten gerne.</span>
             </div>
             <div className="hero-contact-actions">
-              <a
-                href={`tel:${HAUPTNUMMER.festnetzTel}`}
-                className="hero-contact-action hero-contact-action-call"
-                aria-label="Festnetz anrufen"
-              >
-                <span className="hero-contact-icon" aria-hidden>📞</span>
-                <span className="flex flex-col items-start leading-tight">
-                  <span className="hero-contact-label">Festnetz</span>
-                  <span className="hero-contact-value">{HAUPTNUMMER.festnetz}</span>
-                </span>
-              </a>
               <a
                 href={`tel:${HAUPTNUMMER.mobilTel}`}
                 className="hero-contact-action hero-contact-action-call"
@@ -173,6 +162,17 @@ export default function HeroContent({ active }: Props) {
                 </span>
               </a>
               <a
+                href={`mailto:${HAUPTNUMMER.email}`}
+                className="hero-contact-action hero-contact-action-mail"
+                aria-label="E-Mail schreiben"
+              >
+                <span className="hero-contact-icon" aria-hidden>✉️</span>
+                <span className="flex flex-col items-start leading-tight">
+                  <span className="hero-contact-label">E-Mail</span>
+                  <span className="hero-contact-value">Schriftlich anfragen</span>
+                </span>
+              </a>
+              <a
                 href="#kontakt"
                 className="hero-contact-action hero-contact-action-jump"
                 aria-label="Zum Kontaktformular springen"
@@ -180,7 +180,7 @@ export default function HeroContent({ active }: Props) {
                 <span className="hero-contact-icon" aria-hidden>📋</span>
                 <span className="flex flex-col items-start leading-tight">
                   <span className="hero-contact-label">Kontaktformular</span>
-                  <span className="hero-contact-value">Termin online buchen</span>
+                  <span className="hero-contact-value">Unten ausfüllen</span>
                 </span>
               </a>
             </div>

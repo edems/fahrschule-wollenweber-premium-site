@@ -109,7 +109,7 @@ export default function Standorte() {
                 Wir kommen auch zu dir — sprich uns an, wir holen dich ab.
               </h3>
               <p className="mt-1 text-[13.5px]" style={{ color: 'rgba(26, 26, 46, 0.7)' }}>
-                Keine Lust zu telefonieren? Schreib uns einfach per WhatsApp.
+                Schreib uns direkt per WhatsApp oder ruf die Mobilnummer an.
               </p>
             </div>
             <div className="flex flex-wrap items-center gap-3">
@@ -119,8 +119,8 @@ export default function Standorte() {
                 </svg>
                 WhatsApp schreiben
               </a>
-              <a href={`tel:${HAUPTNUMMER.festnetzTel}`} className="btn-outline-light">
-                📞 {HAUPTNUMMER.festnetz}
+              <a href={`tel:${HAUPTNUMMER.mobilTel}`} className="btn-outline-light">
+                📱 {HAUPTNUMMER.mobil}
               </a>
             </div>
           </div>

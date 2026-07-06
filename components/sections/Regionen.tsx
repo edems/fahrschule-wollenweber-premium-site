@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { REGIONEN, REGIONEN_COUNT } from '@/lib/regionen';
+import { HAUPTNUMMER } from '@/lib/standorte';
 import SectionHeader from '@/components/ui/SectionHeader';
 import { Reveal } from '@/components/ui/ScrollMotion';
 
@@ -56,10 +57,10 @@ export default function Regionen() {
 
           <div className="mt-8 flex flex-col gap-3 border-t pt-6 sm:flex-row sm:items-center sm:justify-between" style={{ borderColor: 'rgba(26, 26, 46, 0.1)' }}>
             <p className="text-[13.5px]" style={{ color: 'rgba(26, 26, 46, 0.65)' }}>
-              Dein Ort ist nicht dabei? Ruf uns an – wir prüfen, ob wir dich einsammeln können.
+              Dein Ort ist nicht dabei? Schreib uns per WhatsApp oder ruf mobil an – wir prüfen, ob wir dich einsammeln können.
             </p>
-            <a href="tel:02661-915550" className="btn-outline-light shrink-0">
-              02661 - 91 55 50 <span aria-hidden>☎</span>
+            <a href={`tel:${HAUPTNUMMER.mobilTel}`} className="btn-outline-light shrink-0">
+              {HAUPTNUMMER.mobil} <span aria-hidden>📱</span>
             </a>
           </div>
         </Reveal>

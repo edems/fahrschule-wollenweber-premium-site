@@ -99,7 +99,7 @@ export default function Kontakt() {
           />
         </PremiumReveal>
 
-        {/* 5-Kanal Quick-Contact: Festnetz, Mobil, WhatsApp, E-Mail, Online-Termin */}
+        {/* Quick-Contact: Mobil, WhatsApp, E-Mail, Kontaktformular */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -107,13 +107,6 @@ export default function Kontakt() {
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           className="kontakt-channels"
         >
-          <a href={`tel:${HAUPTNUMMER.festnetzTel}`} className="kontakt-channel kontakt-channel-call">
-            <div className="kontakt-channel-icon" aria-hidden>📞</div>
-            <div className="kontakt-channel-meta">
-              <div className="kontakt-channel-label">Festnetz anrufen</div>
-              <div className="kontakt-channel-value">{HAUPTNUMMER.festnetz}</div>
-            </div>
-          </a>
           <a href={`tel:${HAUPTNUMMER.mobilTel}`} className="kontakt-channel kontakt-channel-call">
             <div className="kontakt-channel-icon" aria-hidden>📱</div>
             <div className="kontakt-channel-meta">
@@ -138,10 +131,10 @@ export default function Kontakt() {
             </div>
           </a>
           <a href="#kontakt-form" className="kontakt-channel kontakt-channel-form">
-            <div className="kontakt-channel-icon" aria-hidden>📅</div>
+            <div className="kontakt-channel-icon" aria-hidden>📋</div>
             <div className="kontakt-channel-meta">
-              <div className="kontakt-channel-label">Online-Termin</div>
-              <div className="kontakt-channel-value">Kalender unten</div>
+              <div className="kontakt-channel-label">Kontaktformular</div>
+              <div className="kontakt-channel-value">Unten ausfüllen</div>
             </div>
           </a>
         </motion.div>

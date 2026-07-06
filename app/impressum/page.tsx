@@ -35,8 +35,6 @@ export default function Impressum() {
           <section className="legal-section">
             <h2>Kontakt</h2>
             <p>
-              <strong>Telefon (Festnetz):</strong> {HAUPTNUMMER.festnetz}
-              <br />
               <strong>Telefon (Mobil):</strong> {HAUPTNUMMER.mobil}
               <br />
               <strong>E-Mail:</strong> <a href={`mailto:${HAUPTNUMMER.email}`}>{HAUPTNUMMER.email}</a>

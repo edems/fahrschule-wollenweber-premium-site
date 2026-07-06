@@ -88,7 +88,7 @@ export const MODES: Record<ModeId, ModeConfig> = {
   },
   landwirtschaft: {
     id: 'landwirtschaft',
-    label: 'Landwirtschaft',
+    label: 'Traktor',
     video: 'videos/hero-Landwirtschaft-v1.mp4',
     videoMobile: 'videos/mobile/hero-Landwirtschaft-v1-mobile.mp4',
     poster: 'videos/mobile/hero-Landwirtschaft-v1-poster.webp',
@@ -130,4 +130,4 @@ export const MODES: Record<ModeId, ModeConfig> = {
   },
 };
 
-export const MODE_ORDER: ModeId[] = ['auto', 'motorrad', 'lkw', 'landwirtschaft', 'bus'];
+export const MODE_ORDER: ModeId[] = ['auto', 'motorrad', 'lkw', 'bus', 'landwirtschaft'];

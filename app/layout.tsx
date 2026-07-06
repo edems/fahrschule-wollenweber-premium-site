@@ -56,7 +56,7 @@ const jsonLd = {
     'Premium Fahrschule im Westerwald mit Standorten in Bad Marienberg und Hachenburg. Alle Führerscheinklassen von Mofa bis Bus.',
   url: 'https://www.fahrschule-wollenweber.de',
   logo: 'https://www.fahrschule-wollenweber.de/images/og-image.jpg',
-  telephone: '+49-2661-915550',
+  telephone: '+49-170-4769911',
   email: 'info@fahrschule-wollenweber.de',
   priceRange: '€€',
   address: [

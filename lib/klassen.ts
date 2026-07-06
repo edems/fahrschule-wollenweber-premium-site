@@ -62,7 +62,7 @@ export const KATEGORIEN: Kategorie[] = [
   },
   {
     id: 'landwirtschaft',
-    label: 'Landwirtschaft',
+    label: 'Traktor',
     iconKey: 'landwirtschaft',
     klassen: [
       { code: 'L', name: 'Zugmaschine', beschreibung: 'Landwirtschaftliche Nutzung bis 40 km/h.' },

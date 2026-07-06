@@ -19,8 +19,8 @@ export const STANDORTE: Standort[] = [
     adresse: 'Neuer Weg 3',
     plz: '56470',
     ort: 'Bad Marienberg',
-    telefon: '02661-915550',
-    telefonLabel: '02661 - 91 55 50',
+    telefon: '0170-4769911',
+    telefonLabel: '0170 / 476 99 11',
     email: 'info@fahrschule-wollenweber.de',
     theoryLabel: 'Theorie: Mo & Mi · 18:00 – 19:30 Uhr',
     oeffnungszeiten: [
@@ -53,8 +53,6 @@ export const STANDORTE: Standort[] = [
 ];
 
 export const HAUPTNUMMER = {
-  festnetz: '02661 - 91 55 50',
-  festnetzTel: '02661-915550',
   mobil: '0170 / 476 99 11',
   mobilTel: '0170-4769911',
   email: 'info@fahrschule-wollenweber.de',

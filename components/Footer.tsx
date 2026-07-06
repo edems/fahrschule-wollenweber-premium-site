@@ -5,6 +5,8 @@ import { KATEGORIEN } from '@/lib/klassen';
 import { STANDORTE, HAUPTNUMMER } from '@/lib/standorte';
 import { BRAND_SLOGAN } from '@/lib/modes';
 
+const WHATSAPP_URL = 'https://wa.me/491704769911?text=Hi%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eine%20Fahrstunde%20bei%20Wollenweber.';
+
 const NAV_LINKS = [
   { href: '#klassen', label: 'Klassen' },
   { href: '#lernpfade', label: 'Lernpfade' },
@@ -28,9 +30,9 @@ export default function Footer() {
             </h3>
           </div>
           <div className="flex flex-wrap items-center gap-3">
-            <a href="#kontakt" className="btn-primary">Termin anfragen →</a>
-            <a href={`tel:${HAUPTNUMMER.festnetzTel}`} className="btn-ghost-dark">
-              {HAUPTNUMMER.festnetz} <span aria-hidden>☎</span>
+            <a href="#kontakt" className="btn-primary">Kontaktformular →</a>
+            <a href={`tel:${HAUPTNUMMER.mobilTel}`} className="btn-ghost-dark">
+              {HAUPTNUMMER.mobil} <span aria-hidden>📱</span>
             </a>
           </div>
         </div>
@@ -49,22 +51,13 @@ export default function Footer() {
             </p>
             <div className="footer-social">
               <a
-                href="https://www.facebook.com/pages/Fahrschule-WOLLENWEBER-GmbH/501278146588908"
+                href={WHATSAPP_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Facebook"
+                aria-label="WhatsApp"
                 className="footer-social-link"
               >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/></svg>
-              </a>
-              <a
-                href="https://maps.app.goo.gl/Yip1sEL1naEKuQYv5"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Google Maps"
-                className="footer-social-link"
-              >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.6 0 12 0zm5.5 17.6l-1.4-2.4c-.2-.4-.6-.6-1-.4-.4.2-.6.6-.4 1l1.4 2.4c-1.6 1-3.4 1.6-5.1 1.6-5 0-9-4-9-9s4-9 9-9 9 4 9 9c0 2.7-1.2 5.1-3 6.8zM12 5.5c-3.6 0-6.5 2.9-6.5 6.5s2.9 6.5 6.5 6.5 6.5-2.9 6.5-6.5-2.9-6.5-6.5-6.5zm0 11c-2.5 0-4.5-2-4.5-4.5S9.5 7.5 12 7.5s4.5 2 4.5 4.5-2 4.5-4.5 4.5zm0-7c-1.4 0-2.5 1.1-2.5 2.5S10.6 14.5 12 14.5s2.5-1.1 2.5-2.5S13.4 9.5 12 9.5z"/></svg>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163a11.867 11.867 0 0 1-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 0 1 8.413 3.488 11.824 11.824 0 0 1 3.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 0 1-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
               </a>
               <a href={`mailto:${HAUPTNUMMER.email}`} aria-label="E-Mail" className="footer-social-link">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
@@ -91,7 +84,7 @@ export default function Footer() {
                   <a href="#standorte">
                     {s.ort}
                     <span className="footer-list-sub">{s.adresse}</span>
-                    <span className="footer-list-sub">{s.telefonLabel}</span>
+                    <span className="footer-list-sub">Mobil: {HAUPTNUMMER.mobil}</span>
                   </a>
                 </li>
               ))}
@@ -102,17 +95,18 @@ export default function Footer() {
             <div className="footer-head">Kontakt</div>
             <ul className="footer-list">
               <li>
-                <a href={`tel:${HAUPTNUMMER.festnetzTel}`}>
-                  Festnetz: {HAUPTNUMMER.festnetz}
-                </a>
-              </li>
-              <li>
                 <a href={`tel:${HAUPTNUMMER.mobilTel}`}>
                   Mobil: {HAUPTNUMMER.mobil}
                 </a>
               </li>
               <li>
+                <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">WhatsApp schreiben</a>
+              </li>
+              <li>
                 <a href={`mailto:${HAUPTNUMMER.email}`}>{HAUPTNUMMER.email}</a>
+              </li>
+              <li>
+                <a href="#kontakt">Kontaktformular</a>
               </li>
             </ul>
           </div>
