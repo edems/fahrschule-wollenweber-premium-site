@@ -1,12 +1,15 @@
-export type ModeId = 'auto' | 'motorrad' | 'lkw' | 'landwirtschaft' | 'bus';
+export type ModeId = 'auto' | 'motorrad' | 'lkw' | 'landwirtschaft' | 'bus' | 'seminare';
 
 export type ModeConfig = {
   id: ModeId;
   label: string;
+  media: 'video' | 'image';
   video: string;
   videoMobile: string;
   poster: string;
+  image?: string;
   badge: string;
+  badgeItems: { code: string; label?: string }[];
   headline: [string, string, string];
   versprechen: string[];
   cta: string;
@@ -26,10 +29,18 @@ export const MODES: Record<ModeId, ModeConfig> = {
   auto: {
     id: 'auto',
     label: 'PKW',
+    media: 'video',
     video: 'videos/hero-auto-v1.mp4',
     videoMobile: 'videos/mobile/hero-auto-v1-mobile.mp4',
     poster: 'videos/mobile/hero-auto-v1-poster.webp',
     badge: 'B197 · BF17 · BE · B96',
+    badgeItems: [
+      { code: 'B' },
+      { code: 'B197' },
+      { code: 'BF17' },
+      { code: 'BE' },
+      { code: 'B96' },
+    ],
     headline: ['Dein Weg', 'zum Führerschein.', 'Im Westerwald.'],
     versprechen: [
       'Vom klassischen Autoführerschein bis B197',
@@ -47,10 +58,18 @@ export const MODES: Record<ModeId, ModeConfig> = {
   motorrad: {
     id: 'motorrad',
     label: 'Motorrad',
+    media: 'video',
     video: 'videos/hero-motorrad-v1.mp4',
     videoMobile: 'videos/mobile/hero-motorrad-v1-mobile.mp4',
     poster: 'videos/mobile/hero-motorrad-v1-poster.webp',
     badge: 'AM · A1 · B196 · A2 · A',
+    badgeItems: [
+      { code: 'AM' },
+      { code: 'A1' },
+      { code: 'B196' },
+      { code: 'A2' },
+      { code: 'A' },
+    ],
     headline: ['Freiheit', 'auf zwei Rädern.', 'Kurvig, ehrlich.'],
     versprechen: [
       'Vom Mofa bis zur offenen Motorradklasse',
@@ -68,10 +87,17 @@ export const MODES: Record<ModeId, ModeConfig> = {
   lkw: {
     id: 'lkw',
     label: 'LKW',
+    media: 'video',
     video: 'videos/hero-lkw-v1.mp4',
     videoMobile: 'videos/mobile/hero-lkw-v1-mobile.mp4',
     poster: 'videos/mobile/hero-lkw-v1-poster.webp',
     badge: 'C1 · C1E · C · CE',
+    badgeItems: [
+      { code: 'C1' },
+      { code: 'C1E' },
+      { code: 'C' },
+      { code: 'CE' },
+    ],
     headline: ['Profi am Steuer.', 'Jeder Zentner.', 'Sicher unterwegs.'],
     versprechen: [
       'Berufskraftfahrer-Weiterbildung',
@@ -89,10 +115,15 @@ export const MODES: Record<ModeId, ModeConfig> = {
   landwirtschaft: {
     id: 'landwirtschaft',
     label: 'Traktor',
+    media: 'video',
     video: 'videos/hero-Landwirtschaft-v1.mp4',
     videoMobile: 'videos/mobile/hero-Landwirtschaft-v1-mobile.mp4',
     poster: 'videos/mobile/hero-Landwirtschaft-v1-poster.webp',
     badge: 'L · T',
+    badgeItems: [
+      { code: 'L' },
+      { code: 'T' },
+    ],
     headline: ['Vom Hof', 'auf die Straße.', 'Direkt aus der Region.'],
     versprechen: [
       'Zugmaschinen und landwirtschaftliche Nutzung',
@@ -110,10 +141,17 @@ export const MODES: Record<ModeId, ModeConfig> = {
   bus: {
     id: 'bus',
     label: 'Bus',
+    media: 'video',
     video: 'videos/hero-bus-v1.mp4',
     videoMobile: 'videos/mobile/hero-bus-v1-mobile.mp4',
     poster: 'videos/mobile/hero-bus-v1-poster.webp',
     badge: 'D1 · D1E · D · DE',
+    badgeItems: [
+      { code: 'D1' },
+      { code: 'D1E' },
+      { code: 'D' },
+      { code: 'DE' },
+    ],
     headline: ['Menschen bewegen.', 'Sicher ankommen.', 'Täglich.'],
     versprechen: [
       'Omnibus-Klassen für den Personenverkehr',
@@ -128,6 +166,35 @@ export const MODES: Record<ModeId, ModeConfig> = {
       { value: '1', label: 'Mission' },
     ],
   },
+  seminare: {
+    id: 'seminare',
+    label: 'Seminare',
+    media: 'image',
+    video: '',
+    videoMobile: '',
+    poster: 'icons/optimized/klassen-seminare.webp',
+    image: 'icons/optimized/klassen-seminare.webp',
+    badge: 'ASF · FES · BKrFQG · Stapler',
+    badgeItems: [
+      { code: 'ASF' },
+      { code: 'FES' },
+      { code: 'BKrFQG' },
+      { code: 'Stapler' },
+    ],
+    headline: ['Seminare', 'mit Erlaubnis.', 'Direkt vor Ort.'],
+    versprechen: [
+      'Einzige Fahrschule für alle Klassen an den Standorten Bad Marienberg und Hachenburg mit Seminarerlaubnis',
+      'ASF Probezeit: Aufbauseminare für Fahranfänger',
+      'FES Punkteabbau: Fahreignungsseminar bei Punkten in Flensburg',
+    ],
+    cta: 'Seminar anfragen',
+    ctaHref: '#kontakt',
+    stats: [
+      { value: 'ASF', label: 'Probezeit' },
+      { value: 'FES', label: 'Punkteabbau' },
+      { value: '95', label: 'BKrFQG' },
+    ],
+  },
 };
 
-export const MODE_ORDER: ModeId[] = ['auto', 'motorrad', 'lkw', 'bus', 'landwirtschaft'];
+export const MODE_ORDER: ModeId[] = ['auto', 'motorrad', 'lkw', 'bus', 'landwirtschaft', 'seminare'];

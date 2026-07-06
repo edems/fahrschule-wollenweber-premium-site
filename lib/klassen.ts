@@ -12,7 +12,21 @@ export type Kategorie = {
   klassen: Klasse[];
 };
 
+export const klasseAnchorId = (code: string) => `klasse-${code}`;
+
 export const KATEGORIEN: Kategorie[] = [
+  {
+    id: 'auto',
+    label: 'PKW',
+    iconKey: 'auto',
+    klassen: [
+      { code: 'B', name: 'Klasse B', beschreibung: 'Der klassische Pkw-Führerschein für Alltag, Arbeit und private Mobilität.' },
+      { code: 'B197', name: 'Automatik mit Schaltkompetenz', beschreibung: 'Ausbildung auf Automatik mit zusätzlicher Schaltkompetenz. Danach darfst du auch Schaltwagen fahren.' },
+      { code: 'BF17', name: 'Begleitetes Fahren', beschreibung: 'Führerschein ab 17 mit eingetragenen Begleitpersonen.', lang: 'Begleitetes Fahren ab 17 Jahren' },
+      { code: 'BE', name: 'Große Anhänger', beschreibung: 'Für Pkw-Anhängerkombinationen, wenn B96 nicht mehr ausreicht.' },
+      { code: 'B96', name: 'Auto mit Anhänger', beschreibung: 'Erweiterung für mehr Anhängelast ohne vollständige BE-Ausbildung.' },
+    ],
+  },
   {
     id: 'motorrad',
     label: 'Motorrad & Mofa',
@@ -24,18 +38,6 @@ export const KATEGORIEN: Kategorie[] = [
       { code: 'B196', name: '125er-Erweiterung', beschreibung: 'Leichtkraftrad-Erweiterung für Klasse-B-Inhaber.' },
       { code: 'A2', name: 'Stufenaufstieg', beschreibung: 'Motorrad bis 35 kW.' },
       { code: 'A', name: 'Offene Klasse', beschreibung: 'Motorrad ohne Leistungsgrenze.' },
-    ],
-  },
-  {
-    id: 'auto',
-    label: 'Auto & Anhänger',
-    iconKey: 'auto',
-    klassen: [
-      { code: 'B', name: 'Auto', beschreibung: 'Klassischer Autoführerschein.' },
-      { code: 'B197', name: 'Automatik mit Schaltkompetenz', beschreibung: 'Automatik-Ausbildung mit späterer Schaltwagen-Option.' },
-      { code: 'BF17', name: 'Begleitetes Fahren', beschreibung: 'Führerschein ab 17.', lang: 'Begleitetes Fahren ab 17 Jahren' },
-      { code: 'B96', name: 'Auto mit Anhänger', beschreibung: 'Mehr Anhängelast ohne BE.' },
-      { code: 'BE', name: 'Große Anhänger', beschreibung: 'Anhängerkombinationen.' },
     ],
   },
   {
@@ -74,11 +76,16 @@ export const KATEGORIEN: Kategorie[] = [
     label: 'Seminare',
     iconKey: 'seminare',
     klassen: [
-      { code: 'BKF', name: 'Berufskraftfahrer', beschreibung: 'Berufliche Weiterbildung.', lang: 'Weiterbildung nach BKrFQG' },
-      { code: 'GABEL', name: 'Staplerschein', beschreibung: 'Spezialschein für Betrieb und Logistik.' },
-      { code: 'BAGGER', name: 'Baumaschinenführer', beschreibung: 'Spezialschein Baustelle und Maschine.' },
-      { code: 'ASF', name: 'Aufbauseminare', beschreibung: 'Angeordnete oder freiwillige Nachschulung.' },
-      { code: 'FES', name: 'Fahreignungsseminar', beschreibung: 'Punkteabbau und Fahreignung.' },
+      { code: 'BKrFQG', name: 'Berufskraftfahrer-Weiterbildung', beschreibung: 'Weiterbildung für Berufskraftfahrer und Unternehmen. Praxisnah, anerkannt und direkt im Westerwald.' },
+      { code: 'Stapler', name: 'Staplerschein', beschreibung: 'Ausbildung für Flurförderfahrzeuge in Betrieb, Lager und Logistik.' },
+      { code: 'Baumaschinen', name: 'Baumaschinenführer', beschreibung: 'Sicherer Umgang mit Baggern, Radladern und weiteren Baumaschinen.' },
+      { code: 'ASF', name: 'Aufbauseminar in der Probezeit', beschreibung: 'ASF Probezeit: Aufbauseminar für Fahranfänger, wenn die Fahrerlaubnisbehörde es anordnet.' },
+      { code: 'FES', name: 'Fahreignungsseminar / Punkteabbau', beschreibung: 'FES Punkteabbau: Seminar für Verkehrsteilnehmer mit Punkten in Flensburg.' },
     ],
   },
 ];
+
+export const findKategorieIdByKlasseCode = (code: string): Kategorie['id'] | null => {
+  const kat = KATEGORIEN.find((k) => k.klassen.some((klasse) => klasse.code === code));
+  return kat?.id ?? null;
+};

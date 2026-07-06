@@ -16,6 +16,7 @@ export default function VideoStage({ active }: Props) {
     lkw: null,
     landwirtschaft: null,
     bus: null,
+    seminare: null,
   });
   const [reducedMotion, setReducedMotion] = useState(false);
   const [allowAdjacentPreload, setAllowAdjacentPreload] = useState(false);
@@ -34,6 +35,7 @@ export default function VideoStage({ active }: Props) {
 
   const playActiveVideo = async () => {
     if (reducedMotionRef.current) return true;
+    if (MODES[activeRef.current].media !== 'video') return true;
     const v = refs.current[activeRef.current];
     if (!v) return false;
     v.classList.add('is-active');
@@ -115,6 +117,7 @@ export default function VideoStage({ active }: Props) {
     const next = MODE_ORDER[(currentIdx + 1) % MODE_ORDER.length];
     const prev = MODE_ORDER[(currentIdx - 1 + MODE_ORDER.length) % MODE_ORDER.length];
     [next, prev].forEach((id) => {
+      if (MODES[id].media !== 'video') return;
       const v = refs.current[id];
       if (v && v.preload !== 'auto') v.preload = 'auto';
     });
@@ -148,6 +151,21 @@ export default function VideoStage({ active }: Props) {
         {MODE_ORDER.map((id) => {
           const m = MODES[id];
           const isActive = id === active;
+          if (m.media === 'image') {
+            return (
+              <div
+                key={id}
+                data-mode={id}
+                aria-hidden={!isActive}
+                className={`hero-video hero-static ${isActive ? 'is-active' : ''}`}
+              >
+                <div className="hero-static-bg" />
+                <img src={m.image} alt="" aria-hidden="true" className="hero-static-icon" />
+                <div className="hero-static-grid" />
+              </div>
+            );
+          }
+
           return (
             <video
               key={id}
@@ -193,6 +211,48 @@ export default function VideoStage({ active }: Props) {
         }
         .hero-video.is-paused {
           animation: none !important;
+        }
+        .hero-static {
+          display: grid;
+          place-items: center;
+          background:
+            radial-gradient(circle at 50% 42%, rgba(37, 211, 102, 0.18), transparent 26%),
+            radial-gradient(circle at 30% 60%, rgba(91, 79, 233, 0.24), transparent 34%),
+            linear-gradient(135deg, rgba(10, 10, 20, 0.98), rgba(26, 26, 46, 0.88));
+        }
+        .hero-static-bg {
+          position: absolute;
+          width: min(70vw, 620px);
+          aspect-ratio: 1;
+          border-radius: 50%;
+          background:
+            radial-gradient(circle, rgba(248, 248, 251, 0.12), transparent 58%),
+            linear-gradient(135deg, rgba(91, 79, 233, 0.28), rgba(37, 211, 102, 0.14));
+          filter: blur(2px);
+          transform: translateY(4%);
+        }
+        .hero-static-icon {
+          position: relative;
+          z-index: 1;
+          width: min(38vw, 280px);
+          height: min(38vw, 280px);
+          object-fit: contain;
+          padding: 44px;
+          border-radius: 34px;
+          background: rgba(255, 255, 255, 0.08);
+          border: 1px solid rgba(248, 248, 251, 0.14);
+          box-shadow: 0 28px 90px -36px rgba(124, 58, 237, 0.9);
+          backdrop-filter: blur(18px);
+        }
+        .hero-static-grid {
+          position: absolute;
+          inset: 0;
+          opacity: 0.14;
+          background-image:
+            linear-gradient(rgba(248, 248, 251, 0.24) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(248, 248, 251, 0.24) 1px, transparent 1px);
+          background-size: 64px 64px;
+          mask-image: radial-gradient(circle at 50% 48%, black, transparent 68%);
         }
         @media (prefers-reduced-motion: reduce) {
           .hero-video.is-active {

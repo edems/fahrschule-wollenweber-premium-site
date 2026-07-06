@@ -1,9 +1,9 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import Image from 'next/image';
-import { KATEGORIEN } from '@/lib/klassen';
+import { findKategorieIdByKlasseCode, klasseAnchorId, KATEGORIEN } from '@/lib/klassen';
 import { KLASSEN_ICON_MAP } from '@/components/icons/KlassenIcons';
 import SectionHeader from '@/components/ui/SectionHeader';
 import { PremiumReveal } from '@/components/ui/ScrollMotion';
@@ -15,6 +15,43 @@ export default function KlassenHub() {
   const aktiveKat = KATEGORIEN.find((k) => k.id === active)!;
   const activeIcon = KLASSEN_ICON_MAP[aktiveKat.iconKey];
 
+  const activateAndScrollToCode = (code: string) => {
+    const targetKategorie = findKategorieIdByKlasseCode(code);
+    if (!targetKategorie) return;
+    setActive(targetKategorie);
+    window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => {
+        document.getElementById(klasseAnchorId(code))?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        });
+      });
+    });
+  };
+
+  useEffect(() => {
+    const handleTarget = (event: Event) => {
+      const customEvent = event as CustomEvent<{ code?: string }>;
+      if (!customEvent.detail?.code) return;
+      activateAndScrollToCode(customEvent.detail.code);
+    };
+
+    const handleHash = () => {
+      const code = window.location.hash.replace(/^#klasse-/, '');
+      if (!code || code === window.location.hash) return;
+      activateAndScrollToCode(code);
+    };
+
+    window.addEventListener('wollenweber:klasse-target', handleTarget);
+    window.addEventListener('hashchange', handleHash);
+    handleHash();
+
+    return () => {
+      window.removeEventListener('wollenweber:klasse-target', handleTarget);
+      window.removeEventListener('hashchange', handleHash);
+    };
+  }, []);
+
   return (
     <section id="klassen" className="section section-light relative">
       <div className="container-page relative">
@@ -23,10 +60,10 @@ export default function KlassenHub() {
             eyebrow="Führerscheinklassen"
             title={
               <>
-                Von Mofa bis <span className="gradient-text gradient-text-italic">Bus.</span>
+                Klassen & <span className="gradient-text gradient-text-italic">Seminare.</span>
               </>
             }
-            description="Wähle deine Kategorie und entdecke alle Klassen, die wir im Westerwald ausbilden. Klick auf eine Klasse für die Anmeldung."
+          description="Wähle deine Kategorie und entdecke, wofür die einzelnen Klassen und Seminare stehen. Wenn du weißt, was passt, fragst du unten direkt an."
           />
         </PremiumReveal>
 
@@ -188,13 +225,13 @@ export default function KlassenHub() {
 }
 
 function KlasseCard({ k }: { k: { code: string; name: string; beschreibung: string; lang?: string } }) {
-  const ref = useRef<HTMLAnchorElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const rotateX = useSpring(useTransform(y, [-0.5, 0.5], [4, -4]), { stiffness: 200, damping: 15 });
   const rotateY = useSpring(useTransform(x, [-0.5, 0.5], [-4, 4]), { stiffness: 200, damping: 15 });
 
-  const handleMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
+  const handleMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!ref.current) return;
     const rect = ref.current.getBoundingClientRect();
     x.set((e.clientX - rect.left) / rect.width - 0.5);
@@ -206,13 +243,13 @@ function KlasseCard({ k }: { k: { code: string; name: string; beschreibung: stri
   };
 
   return (
-    <motion.a
+    <motion.article
       ref={ref}
-      href="#kontakt"
+      id={klasseAnchorId(k.code)}
       onMouseMove={handleMove}
       onMouseLeave={handleLeave}
       style={{ rotateX, rotateY, transformPerspective: 1000, transformStyle: 'preserve-3d' }}
-      className="klasse-card group flex h-full flex-col rounded-2xl p-5 transition-all duration-300"
+      className="klasse-card group flex h-full scroll-mt-28 flex-col rounded-2xl p-5 transition-all duration-300"
     >
       <div className="mb-4 flex items-baseline justify-between">
         <span className="klasse-code">{k.code}</span>
@@ -235,6 +272,10 @@ function KlasseCard({ k }: { k: { code: string; name: string; beschreibung: stri
           {k.lang}
         </p>
       )}
+      <a href="#kontakt" className="klasse-card-cta">
+        Dazu anfragen
+        <span aria-hidden>→</span>
+      </a>
 
       <style jsx>{`
         .klasse-card {
@@ -248,6 +289,10 @@ function KlasseCard({ k }: { k: { code: string; name: string; beschreibung: stri
           background: #ffffff;
           box-shadow: 0 12px 28px -8px rgba(91, 79, 233, 0.2);
         }
+        .klasse-card:target {
+          border-color: rgba(37, 211, 102, 0.58);
+          box-shadow: 0 16px 34px -12px rgba(37, 211, 102, 0.32);
+        }
         .klasse-code {
           font-size: 12px;
           font-weight: 700;
@@ -258,7 +303,21 @@ function KlasseCard({ k }: { k: { code: string; name: string; beschreibung: stri
           border-radius: 999px;
           color: #6D28D9;
         }
+        .klasse-card-cta {
+          display: inline-flex;
+          align-items: center;
+          gap: 7px;
+          align-self: flex-start;
+          margin-top: auto;
+          padding-top: 16px;
+          font-size: 13px;
+          font-weight: 700;
+          color: #6D28D9;
+        }
+        .klasse-card-cta:hover {
+          color: #4C1D95;
+        }
       `}</style>
-    </motion.a>
+    </motion.article>
   );
 }

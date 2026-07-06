@@ -4,9 +4,8 @@ import { useEffect, useState } from 'react';
 import { motion, AnimatePresence, useScroll, useSpring } from 'framer-motion';
 
 const LINKS = [
-  { href: '#klassen', label: 'Klassen' },
+  { href: '#klassen', label: 'Klassen & Seminare' },
   { href: '#lernpfade', label: 'Lernpfade' },
-  { href: '#spezialleistungen', label: 'Spezialleistungen' },
   { href: '#team', label: 'Team' },
   { href: '#standorte', label: 'Standorte' },
   { href: '#regionen', label: 'Regionen' },

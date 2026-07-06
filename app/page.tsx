@@ -4,7 +4,6 @@ import Team from '@/components/sections/Team';
 import Bewertungen from '@/components/sections/Bewertungen';
 import KlassenHub from '@/components/sections/KlassenHub';
 import Lernpfade from '@/components/sections/Lernpfade';
-import Spezialleistungen from '@/components/sections/Spezialleistungen';
 import Fuhrpark from '@/components/sections/Fuhrpark';
 import Zertifizierungen from '@/components/sections/Zertifizierungen';
 import Standorte from '@/components/sections/Standorte';
@@ -21,7 +20,6 @@ export default function Home() {
       <Bewertungen />
       <KlassenHub />
       <Lernpfade />
-      <Spezialleistungen />
       <Fuhrpark />
       <Zertifizierungen />
       <Standorte />

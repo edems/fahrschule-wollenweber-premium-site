@@ -1,8 +1,10 @@
 'use client';
 
+import type { MouseEvent } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { ModeId } from '@/lib/modes';
 import { MODES } from '@/lib/modes';
+import { klasseAnchorId } from '@/lib/klassen';
 import { HAUPTNUMMER } from '@/lib/standorte';
 
 type Props = { active: ModeId };
@@ -20,6 +22,12 @@ export default function HeroContent({ active }: Props) {
   const m = MODES[active];
   const modeKey = active;
 
+  const handleBadgeClick = (e: MouseEvent<HTMLAnchorElement>, code: string) => {
+    e.preventDefault();
+    window.history.replaceState(null, '', `#${klasseAnchorId(code)}`);
+    window.dispatchEvent(new CustomEvent('wollenweber:klasse-target', { detail: { code } }));
+  };
+
   return (
     <div className="container-page relative z-10 grid h-full grid-cols-1 items-center gap-6 pb-20 pt-32 sm:gap-8 md:pb-24 lg:grid-cols-[1.4fr_1fr] lg:gap-16">
       <div className="hero-copy w-full">
@@ -30,7 +38,18 @@ export default function HeroContent({ active }: Props) {
             className="mb-5 inline-flex items-center gap-2 sm:mb-7 sm:gap-3"
           >
             <span className="accent-line" />
-            <span className="eyebrow">{m.badge}</span>
+            <span className="hero-class-chip-row" aria-label={`${m.label} Unterkategorien`}>
+              {m.badgeItems.map((item) => (
+                <a
+                  key={item.code}
+                  href={`#${klasseAnchorId(item.code)}`}
+                  onClick={(e) => handleBadgeClick(e, item.code)}
+                  className="hero-class-chip"
+                >
+                  {item.label ?? item.code}
+                </a>
+              ))}
+            </span>
             <span className="ml-0.5 h-1 w-1 rounded-full bg-violet sm:ml-1" />
             <span className="hidden text-[10.5px] font-semibold uppercase tracking-eyebrow text-mute sm:inline">
               Fahrschule Wollenweber
@@ -237,6 +256,33 @@ export default function HeroContent({ active }: Props) {
       </motion.aside>
 
       <style jsx global>{`
+        .hero-class-chip-row {
+          display: inline-flex;
+          flex-wrap: wrap;
+          align-items: center;
+          gap: 7px;
+        }
+        .hero-class-chip {
+          display: inline-flex;
+          align-items: center;
+          min-height: 28px;
+          padding: 6px 10px;
+          border-radius: 999px;
+          border: 1px solid rgba(248, 248, 251, 0.18);
+          background: rgba(255, 255, 255, 0.06);
+          color: rgba(248, 248, 251, 0.82);
+          font-size: 10.5px;
+          font-weight: 700;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          transition: transform 220ms, border-color 220ms, background 220ms, color 220ms;
+        }
+        .hero-class-chip:hover {
+          color: #F8F8FB;
+          background: rgba(124, 58, 237, 0.22);
+          border-color: rgba(124, 58, 237, 0.46);
+          transform: translateY(-1px);
+        }
         .hero-contact-bar {
           width: 100%;
           min-height: 124px;

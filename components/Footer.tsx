@@ -8,9 +8,8 @@ import { BRAND_SLOGAN } from '@/lib/modes';
 const WHATSAPP_URL = 'https://wa.me/491704769911?text=Hi%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eine%20Fahrstunde%20bei%20Wollenweber.';
 
 const NAV_LINKS = [
-  { href: '#klassen', label: 'Klassen' },
+  { href: '#klassen', label: 'Klassen & Seminare' },
   { href: '#lernpfade', label: 'Lernpfade' },
-  { href: '#spezialleistungen', label: 'Spezialleistungen' },
   { href: '#bewertungen', label: 'Bewertungen' },
   { href: '#team', label: 'Team' },
   { href: '#standorte', label: 'Standorte' },
