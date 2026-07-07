@@ -9,6 +9,7 @@ export const KLASSEN_ICON_MAP = {
   bus: 'icons/optimized/klassen-bus.webp',
   landwirtschaft: 'icons/optimized/klassen-landwirtschaft.webp',
   seminare: 'icons/optimized/klassen-seminare.webp',
+  handicap: 'icons/optimized/klassen-auto.webp',
 } as const;
 
 export type KlassenIconKey = keyof typeof KLASSEN_ICON_MAP;

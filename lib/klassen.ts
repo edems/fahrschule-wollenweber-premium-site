@@ -6,9 +6,9 @@ export type Klasse = {
 };
 
 export type Kategorie = {
-  id: 'motorrad' | 'auto' | 'lkw' | 'bus' | 'landwirtschaft' | 'seminare';
+  id: 'motorrad' | 'auto' | 'lkw' | 'bus' | 'landwirtschaft' | 'seminare' | 'handicap';
   label: string;
-  iconKey: 'motorrad' | 'auto' | 'lkw' | 'bus' | 'landwirtschaft' | 'seminare';
+  iconKey: 'motorrad' | 'auto' | 'lkw' | 'bus' | 'landwirtschaft' | 'seminare' | 'handicap';
   klassen: Klasse[];
 };
 
@@ -76,11 +76,22 @@ export const KATEGORIEN: Kategorie[] = [
     label: 'Seminare',
     iconKey: 'seminare',
     klassen: [
-      { code: 'BKrFQG', name: 'Berufskraftfahrer-Weiterbildung', beschreibung: 'Weiterbildung für Berufskraftfahrer und Unternehmen. Praxisnah, anerkannt und direkt im Westerwald.' },
-      { code: 'Stapler', name: 'Staplerschein', beschreibung: 'Ausbildung für Flurförderfahrzeuge in Betrieb, Lager und Logistik.' },
-      { code: 'Baumaschinen', name: 'Baumaschinenführer', beschreibung: 'Sicherer Umgang mit Baggern, Radladern und weiteren Baumaschinen.' },
-      { code: 'ASF', name: 'Aufbauseminar in der Probezeit', beschreibung: 'ASF Probezeit: Aufbauseminar für Fahranfänger, wenn die Fahrerlaubnisbehörde es anordnet.' },
-      { code: 'FES', name: 'Fahreignungsseminar / Punkteabbau', beschreibung: 'FES Punkteabbau: Seminar für Verkehrsteilnehmer mit Punkten in Flensburg.' },
+      { code: 'BKF', name: 'Berufskraftfahrer', beschreibung: 'Berufliche Weiterbildung für Fahrer und Unternehmen, inklusive Ladungssicherung mit direktem Praxisbezug.' },
+      { code: 'Gabelstapler', name: 'Staplerschein', beschreibung: 'Spezialschein für Betrieb und Logistik. Berufliche Weiterbildung für den sicheren Umgang mit Flurförderfahrzeugen.' },
+      { code: 'Baumaschinen', name: 'Baumaschinenführer', beschreibung: 'Spezialschein für Baustelle und Maschine. Sicherer Umgang mit Baumaschinen in Theorie und Praxis.' },
+    ],
+  },
+  {
+    id: 'handicap',
+    label: 'Handicap',
+    iconKey: 'handicap',
+    klassen: [
+      {
+        code: 'Handicap',
+        name: 'Führerschein mit Handicap',
+        beschreibung:
+          'Individuelle Fahrausbildung mit Ruhe, Geduld und angepasstem Ablauf. Wir schauen gemeinsam, was du brauchst, und begleiten dich Schritt für Schritt zum Führerschein.',
+      },
     ],
   },
 ];
