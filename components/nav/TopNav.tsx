@@ -5,7 +5,7 @@ import { motion, AnimatePresence, useScroll, useSpring } from 'framer-motion';
 
 const LINKS = [
   { href: '#klassen', label: 'Klassen & Seminare' },
-  { href: '#lernpfade', label: 'Lernpfade' },
+  { href: '#ablauf', label: 'Ablauf' },
   { href: '#team', label: 'Team' },
   { href: '#standorte', label: 'Standorte' },
   { href: '#regionen', label: 'Regionen' },
