@@ -11,18 +11,8 @@ type Props = {
 };
 
 export default function ModeChips({ active, onChange }: Props) {
-  const [isMobile, setIsMobile] = useState(false);
   const pillRef = useRef<HTMLDivElement>(null);
   const [preloaded, setPreloaded] = useState<Set<ModeId>>(new Set([active]));
-
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    const mq = window.matchMedia('(max-width: 640px)');
-    setIsMobile(mq.matches);
-    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
-    mq.addEventListener('change', handler);
-    return () => mq.removeEventListener('change', handler);
-  }, []);
 
   useEffect(() => {
     const group = pillRef.current;
@@ -85,20 +75,20 @@ export default function ModeChips({ active, onChange }: Props) {
       </div>
 
       {/* Mobile-only snap indicator dots */}
-      {isMobile && (
-        <div className="mode-indicator" aria-hidden>
-          {MODE_ORDER.map((id, i) => (
-            <span
-              key={id}
-              className={`mode-indicator-dot ${i === activeIndex ? 'is-active' : ''}`}
-            />
-          ))}
-        </div>
-      )}
+      <div className="mode-indicator" aria-hidden>
+        {MODE_ORDER.map((id, i) => (
+          <span
+            key={id}
+            className={`mode-indicator-dot ${i === activeIndex ? 'is-active' : ''}`}
+          />
+        ))}
+      </div>
 
       <style jsx>{`
         .mode-pill {
           display: inline-flex;
+          width: min(688px, calc(100vw - 40px));
+          min-height: 52px;
           max-width: 100%;
           gap: 4px;
           padding: 6px;
@@ -114,6 +104,7 @@ export default function ModeChips({ active, onChange }: Props) {
         }
         .mode-chip {
           display: inline-flex;
+          flex: 1 1 0;
           align-items: center;
           justify-content: center;
           gap: 8px;
@@ -163,7 +154,7 @@ export default function ModeChips({ active, onChange }: Props) {
           flex-shrink: 0;
         }
         .mode-indicator {
-          display: flex;
+          display: none;
           gap: 6px;
           margin-top: 10px;
         }
@@ -182,8 +173,13 @@ export default function ModeChips({ active, onChange }: Props) {
         }
 
         @media (max-width: 640px) {
+          .mode-indicator {
+            display: flex;
+          }
           .mode-pill {
-            max-width: calc(100vw - 32px);
+            width: calc(100vw - 40px);
+            max-width: calc(100vw - 40px);
+            min-height: 52px;
             overflow-x: auto;
             overflow-y: hidden;
             scroll-snap-type: x mandatory;

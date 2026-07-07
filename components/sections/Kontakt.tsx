@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, FormEvent } from 'react';
+import { useMemo, useState, FormEvent } from 'react';
 import { motion } from 'framer-motion';
 import { KATEGORIEN } from '@/lib/klassen';
 import { STANDORTE, HAUPTNUMMER } from '@/lib/standorte';
@@ -11,15 +11,24 @@ import { PremiumReveal } from '@/components/ui/ScrollMotion';
 const WHATSAPP_URL = 'https://wa.me/491704769911?text=Hi%2C%20ich%20möchte%20mich%20gerne%20anmelden.';
 
 type Status = 'idle' | 'sending' | 'success' | 'error';
+type KontaktAction = 'email' | 'whatsapp';
+type KatId = (typeof KATEGORIEN)[number]['id'];
 
 export default function Kontakt() {
   const [datum, setDatum] = useState('');
   const [status, setStatus] = useState<Status>('idle');
   const [statusMessage, setStatusMessage] = useState('');
+  const [activeKategorie, setActiveKategorie] = useState<KatId>('auto');
+  const [selectedKlasse, setSelectedKlasse] = useState('B');
 
-  const alleKlassen = KATEGORIEN.flatMap((k) =>
-    k.klassen.map((kl) => ({ ...kl, kategorie: k.label }))
-  );
+  const aktiveKategorie = KATEGORIEN.find((k) => k.id === activeKategorie) ?? KATEGORIEN[0];
+  const selectedKlasseInfo = useMemo(() => {
+    for (const kategorie of KATEGORIEN) {
+      const klasse = kategorie.klassen.find((klasse) => klasse.code === selectedKlasse);
+      if (klasse) return { ...klasse, kategorie: kategorie.label };
+    }
+    return null;
+  }, [selectedKlasse]);
 
   const handleDateChange = (nextDate: string) => {
     setDatum(nextDate);
@@ -29,9 +38,7 @@ export default function Kontakt() {
     }
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const form = e.currentTarget;
+  const submitDetails = (form: HTMLFormElement, action: KontaktAction) => {
     if (!form.checkValidity()) {
       setStatus('error');
       setStatusMessage('Bitte fülle alle Pflichtfelder korrekt aus.');
@@ -43,6 +50,11 @@ export default function Kontakt() {
       setStatusMessage('Bitte wähle einen Termin im Kalender.');
       return;
     }
+    if (!selectedKlasseInfo) {
+      setStatus('error');
+      setStatusMessage('Bitte wähle eine Führerscheinklasse aus.');
+      return;
+    }
     setStatus('sending');
     const formData = new FormData(form);
     const data = {
@@ -50,13 +62,13 @@ export default function Kontakt() {
       name: formData.get('name'),
       telefon: formData.get('telefon'),
       email: formData.get('email'),
-      klasse: formData.get('klasse'),
+      klasse: `${selectedKlasseInfo.code} · ${selectedKlasseInfo.name} (${selectedKlasseInfo.kategorie})`,
       standort: formData.get('standort'),
       datum,
       nachricht: formData.get('nachricht'),
     };
 
-    const betreff = `Anmeldung ${data.klasse} – ${data.vorname} ${data.name}`;
+    const betreff = `Anmeldung ${selectedKlasseInfo.code} – ${data.vorname} ${data.name}`;
     const body = [
       `Name: ${data.vorname} ${data.name}`,
       `Telefon: ${data.telefon}`,
@@ -69,18 +81,30 @@ export default function Kontakt() {
       `${data.nachricht ?? ''}`,
     ].join('\n');
 
-    const mailto = `mailto:${HAUPTNUMMER.email}?subject=${encodeURIComponent(betreff)}&body=${encodeURIComponent(body)}`;
+    const target =
+      action === 'email'
+        ? `mailto:${HAUPTNUMMER.email}?subject=${encodeURIComponent(betreff)}&body=${encodeURIComponent(body)}`
+        : `https://wa.me/491704769911?text=${encodeURIComponent(`Hallo Fahrschule Wollenweber,\n\nich möchte mich gerne melden:\n\n${body}`)}`;
 
     setStatus('success');
-    setStatusMessage('Vielen Dank! Wir öffnen jetzt dein Mail-Programm. Wir melden uns innerhalb von 24 Stunden.');
+    setStatusMessage(
+      action === 'email'
+        ? 'Vielen Dank! Wir öffnen jetzt dein Mail-Programm mit allen Details.'
+        : 'Vielen Dank! Wir öffnen jetzt WhatsApp mit allen Details.'
+    );
 
     setTimeout(() => {
-      window.location.href = mailto;
+      window.location.href = target;
     }, 600);
   };
 
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    submitDetails(e.currentTarget, 'email');
+  };
+
   return (
-    <section id="kontakt" className="section section-light relative">
+    <section id="kontakt" className="section section-light kontakt-section relative">
       <div className="container-page relative">
         <PremiumReveal>
           <SectionHeader
@@ -177,18 +201,54 @@ export default function Kontakt() {
               </div>
             </div>
 
-            <div className="form-row">
-              <div className="form-field">
-                <label htmlFor="klasse">Klasse</label>
-                <select id="klasse" name="klasse" required defaultValue="">
-                  <option value="" disabled>Bitte wählen</option>
-                  {alleKlassen.map((k) => (
-                    <option key={k.code} value={k.code}>
-                      {k.code} · {k.name} ({k.kategorie})
-                    </option>
-                  ))}
-                </select>
+            <div className="klasse-picker" aria-labelledby="klasse-picker-label">
+              <div id="klasse-picker-label" className="form-label">Klasse wählen</div>
+              <input type="hidden" name="klasse" value={selectedKlasse} />
+              <div className="klasse-category-tabs" role="tablist" aria-label="Führerscheinkategorie">
+                {KATEGORIEN.map((kategorie) => {
+                  const isActive = kategorie.id === activeKategorie;
+                  return (
+                    <button
+                      key={kategorie.id}
+                      type="button"
+                      role="tab"
+                      aria-selected={isActive}
+                      className={`klasse-category-tab ${isActive ? 'is-active' : ''}`}
+                      onClick={() => {
+                        setActiveKategorie(kategorie.id);
+                        setSelectedKlasse(kategorie.klassen[0]?.code ?? selectedKlasse);
+                      }}
+                    >
+                      {kategorie.label}
+                    </button>
+                  );
+                })}
               </div>
+
+              <div className="klasse-chip-grid" role="radiogroup" aria-label={`${aktiveKategorie.label} Klassen`}>
+                {aktiveKategorie.klassen.map((klasse) => {
+                  const isSelected = klasse.code === selectedKlasse;
+                  return (
+                    <button
+                      key={klasse.code}
+                      type="button"
+                      role="radio"
+                      aria-checked={isSelected}
+                      className={`klasse-choice ${isSelected ? 'is-selected' : ''}`}
+                      onClick={() => setSelectedKlasse(klasse.code)}
+                    >
+                      <span className="klasse-choice-code">{klasse.code}</span>
+                      <span className="klasse-choice-copy">
+                        <span className="klasse-choice-name">{klasse.name}</span>
+                        <span className="klasse-choice-desc">{klasse.beschreibung}</span>
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div className="form-row">
               <div className="form-field">
                 <label htmlFor="standort">Standort</label>
                 <select id="standort" name="standort" required defaultValue="">
@@ -218,10 +278,24 @@ export default function Kontakt() {
               />
             </div>
 
-            <button type="submit" className="btn-primary w-full justify-center" disabled={status === 'sending'}>
-              {status === 'sending' ? 'Wird vorbereitet …' : 'Anfrage per E-Mail senden'}
-              <span aria-hidden>→</span>
-            </button>
+            <div className="form-actions">
+              <button type="submit" className="btn-primary justify-center" disabled={status === 'sending'}>
+                {status === 'sending' ? 'Wird vorbereitet …' : 'Per E-Mail senden'}
+                <span aria-hidden>→</span>
+              </button>
+              <button
+                type="button"
+                className="btn-whatsapp justify-center"
+                disabled={status === 'sending'}
+                onClick={(event) => {
+                  const form = event.currentTarget.form;
+                  if (form) submitDetails(form, 'whatsapp');
+                }}
+              >
+                Per WhatsApp senden
+                <span aria-hidden>→</span>
+              </button>
+            </div>
 
             {status === 'success' && (
               <div className="form-status form-status-success" role="status" aria-live="polite">
@@ -235,13 +309,25 @@ export default function Kontakt() {
             )}
 
             <p className="form-hint">
-              Beim Klick öffnet sich dein Mail-Programm mit allen Daten. Oder kontaktiere uns direkt über die 4 Kanäle oben.
+              Beim Klick öffnet sich dein Mail-Programm oder WhatsApp mit allen ausgefüllten Daten. Du entscheidest, wie du die Anfrage absendest.
             </p>
           </form>
         </motion.div>
       </div>
 
       <style jsx global>{`
+        .kontakt-section {
+          background:
+            radial-gradient(ellipse at 12% 12%, rgba(91, 79, 233, 0.13) 0%, transparent 36%),
+            radial-gradient(ellipse at 88% 20%, rgba(37, 211, 102, 0.11) 0%, transparent 34%),
+            radial-gradient(ellipse at 52% 100%, rgba(236, 72, 153, 0.08) 0%, transparent 42%),
+            linear-gradient(180deg, #F8F6F0 0%, #EDE9E1 54%, #F8FAFC 100%);
+        }
+        .kontakt-section::before {
+          background:
+            linear-gradient(115deg, rgba(255, 255, 255, 0.62), transparent 36%),
+            linear-gradient(290deg, rgba(255, 255, 255, 0.52), transparent 42%);
+        }
         .kontakt-channels {
           display: grid;
           grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
@@ -257,8 +343,13 @@ export default function Kontakt() {
           gap: 16px;
           padding: 22px 24px;
           border-radius: 20px;
-          background: rgba(255, 255, 255, 0.92);
-          border: 1px solid rgba(26, 26, 46, 0.1);
+          background: rgba(255, 255, 255, 0.72);
+          border: 1px solid rgba(255, 255, 255, 0.72);
+          backdrop-filter: blur(22px) saturate(165%);
+          -webkit-backdrop-filter: blur(22px) saturate(165%);
+          box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.82),
+            0 18px 54px -40px rgba(26, 26, 46, 0.34);
           text-decoration: none;
           transition: all 250ms cubic-bezier(0.22, 1, 0.36, 1);
           min-height: 104px;
@@ -269,13 +360,13 @@ export default function Kontakt() {
         }
         .kontakt-channel-call:hover { border-color: rgba(124, 58, 237, 0.4); }
         .kontakt-channel-whatsapp {
-          background: linear-gradient(135deg, rgba(37, 211, 102, 0.12) 0%, rgba(18, 140, 126, 0.06) 100%);
+          background: linear-gradient(135deg, rgba(37, 211, 102, 0.18) 0%, rgba(255, 255, 255, 0.62) 100%);
           border-color: rgba(37, 211, 102, 0.3);
         }
         .kontakt-channel-whatsapp:hover { border-color: rgba(37, 211, 102, 0.6); }
         .kontakt-channel-mail:hover { border-color: rgba(124, 58, 237, 0.4); }
         .kontakt-channel-form {
-          background: linear-gradient(135deg, rgba(91, 79, 233, 0.1) 0%, rgba(124, 58, 237, 0.06) 100%);
+          background: linear-gradient(135deg, rgba(91, 79, 233, 0.16) 0%, rgba(255, 255, 255, 0.62) 100%);
           border-color: rgba(124, 58, 237, 0.3);
         }
         .kontakt-channel-form:hover { border-color: rgba(124, 58, 237, 0.5); }
@@ -339,13 +430,17 @@ export default function Kontakt() {
         }
         .kontakt-form {
           padding: 28px;
-          background: rgba(255, 255, 255, 0.92);
-          border: 1px solid rgba(26, 26, 46, 0.1);
+          background: rgba(255, 255, 255, 0.7);
+          border: 1px solid rgba(255, 255, 255, 0.72);
           border-radius: 24px;
           display: flex;
           flex-direction: column;
           gap: 18px;
-          backdrop-filter: blur(8px);
+          backdrop-filter: blur(24px) saturate(170%);
+          -webkit-backdrop-filter: blur(24px) saturate(170%);
+          box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.86),
+            0 28px 72px -48px rgba(26, 26, 46, 0.38);
         }
         .form-row {
           display: grid;
@@ -356,7 +451,8 @@ export default function Kontakt() {
           .form-row { grid-template-columns: 1fr 1fr; }
         }
         .form-field { display: flex; flex-direction: column; gap: 6px; }
-        .form-field label {
+        .form-field label,
+        .form-label {
           font-size: 11px;
           font-weight: 600;
           letter-spacing: 0.14em;
@@ -388,6 +484,121 @@ export default function Kontakt() {
         }
         .form-field select { appearance: none; cursor: pointer; }
         .form-field textarea { resize: vertical; min-height: 80px; }
+        .klasse-picker {
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+        }
+        .klasse-category-tabs {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 8px;
+        }
+        .klasse-category-tab {
+          display: inline-flex;
+          align-items: center;
+          min-height: 38px;
+          padding: 9px 14px;
+          border-radius: 999px;
+          border: 1px solid rgba(26, 26, 46, 0.1);
+          background: rgba(255, 255, 255, 0.58);
+          color: rgba(26, 26, 46, 0.68);
+          font-size: 13px;
+          font-weight: 700;
+          transition: transform 200ms, border-color 200ms, background 200ms, color 200ms, box-shadow 200ms;
+        }
+        .klasse-category-tab:hover {
+          transform: translateY(-1px);
+          border-color: rgba(124, 58, 237, 0.28);
+          color: var(--c-navy);
+        }
+        .klasse-category-tab.is-active {
+          border-color: transparent;
+          background: linear-gradient(135deg, #5B4FE9 0%, #7C3AED 100%);
+          color: #F8F8FB;
+          box-shadow: 0 12px 28px -14px rgba(124, 58, 237, 0.72);
+        }
+        .klasse-chip-grid {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 10px;
+        }
+        @media (min-width: 720px) {
+          .klasse-chip-grid { grid-template-columns: 1fr 1fr; }
+        }
+        .klasse-choice {
+          display: flex;
+          gap: 12px;
+          min-height: 92px;
+          padding: 14px;
+          text-align: left;
+          border-radius: 16px;
+          border: 1px solid rgba(26, 26, 46, 0.1);
+          background: rgba(255, 255, 255, 0.58);
+          transition: transform 220ms, border-color 220ms, background 220ms, box-shadow 220ms;
+        }
+        .klasse-choice:hover {
+          transform: translateY(-2px);
+          border-color: rgba(124, 58, 237, 0.26);
+          background: rgba(255, 255, 255, 0.76);
+        }
+        .klasse-choice.is-selected {
+          border-color: rgba(37, 211, 102, 0.48);
+          background:
+            linear-gradient(135deg, rgba(37, 211, 102, 0.14), rgba(255, 255, 255, 0.82)),
+            rgba(255, 255, 255, 0.82);
+          box-shadow: 0 16px 32px -20px rgba(37, 211, 102, 0.58);
+        }
+        .klasse-choice-code {
+          display: grid;
+          place-items: center;
+          flex: 0 0 auto;
+          min-width: 44px;
+          height: 34px;
+          padding: 0 10px;
+          border-radius: 999px;
+          background: linear-gradient(135deg, rgba(91, 79, 233, 0.14), rgba(124, 58, 237, 0.12));
+          border: 1px solid rgba(124, 58, 237, 0.24);
+          color: #6D28D9;
+          font-size: 12px;
+          font-weight: 850;
+          letter-spacing: 0.08em;
+        }
+        .klasse-choice.is-selected .klasse-choice-code {
+          background: linear-gradient(135deg, #25D366 0%, #5B4FE9 100%);
+          border-color: transparent;
+          color: #F8F8FB;
+        }
+        .klasse-choice-copy {
+          display: flex;
+          min-width: 0;
+          flex-direction: column;
+          gap: 4px;
+        }
+        .klasse-choice-name {
+          color: var(--c-navy);
+          font-size: 14px;
+          font-weight: 800;
+          line-height: 1.25;
+        }
+        .klasse-choice-desc {
+          color: rgba(26, 26, 46, 0.62);
+          font-size: 12.5px;
+          line-height: 1.45;
+        }
+        .form-actions {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 12px;
+        }
+        @media (min-width: 640px) {
+          .form-actions { grid-template-columns: 1fr 1fr; }
+        }
+        .form-actions .btn-primary,
+        .form-actions .btn-whatsapp {
+          width: 100%;
+          min-height: 54px;
+        }
         .form-status {
           padding: 12px 16px;
           border-radius: 10px;

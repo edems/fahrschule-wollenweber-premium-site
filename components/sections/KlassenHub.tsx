@@ -19,17 +19,29 @@ export default function KlassenHub() {
     const targetKategorie = findKategorieIdByKlasseCode(code);
     if (!targetKategorie) return;
     setActive(targetKategorie);
-    window.requestAnimationFrame(() => {
-      window.requestAnimationFrame(() => {
-        document.getElementById(klasseAnchorId(code))?.scrollIntoView({
-          behavior: 'smooth',
-          block: 'center',
-        });
-      });
-    });
+    window.history.replaceState(null, '', `#${klasseAnchorId(code)}`);
+
+    let attempts = 0;
+    const scrollToTarget = () => {
+      attempts += 1;
+      const target = document.getElementById(klasseAnchorId(code));
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+      if (attempts < 8) window.setTimeout(scrollToTarget, 90);
+    };
+
+    window.setTimeout(scrollToTarget, 60);
   };
 
   useEffect(() => {
+    const extractCodeFromHash = () => {
+      const hash = decodeURIComponent(window.location.hash);
+      if (!hash.startsWith('#klasse-')) return '';
+      return hash.replace(/^#klasse-/, '');
+    };
+
     const handleTarget = (event: Event) => {
       const customEvent = event as CustomEvent<{ code?: string }>;
       if (!customEvent.detail?.code) return;
@@ -37,14 +49,14 @@ export default function KlassenHub() {
     };
 
     const handleHash = () => {
-      const code = window.location.hash.replace(/^#klasse-/, '');
-      if (!code || code === window.location.hash) return;
+      const code = extractCodeFromHash();
+      if (!code) return;
       activateAndScrollToCode(code);
     };
 
     window.addEventListener('wollenweber:klasse-target', handleTarget);
     window.addEventListener('hashchange', handleHash);
-    handleHash();
+    window.setTimeout(handleHash, 250);
 
     return () => {
       window.removeEventListener('wollenweber:klasse-target', handleTarget);

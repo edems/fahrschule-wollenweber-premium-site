@@ -18,7 +18,7 @@ export default function Standorte() {
               Zwei Standorte. <span className="gradient-text gradient-text-italic">Eine Mission.</span>
             </>
           }
-          description="Komm zu uns nach Bad Marienberg oder Hachenburg. Theorieunterricht Mo & Mi 18:00 – 19:30 Uhr. Wir kommen auch zu dir — sprich uns an."
+          description="Komm zu uns nach Bad Marienberg oder Hachenburg. Theorieunterricht in Bad Marienberg Mo & Mi 18:00 – 19:30 Uhr, in Hachenburg Mo & Mi 17:30 – 18:30 Uhr."
         />
 
         <Stagger delayStep={0.15} className="grid grid-cols-1 gap-6 lg:grid-cols-2">
@@ -106,7 +106,7 @@ export default function Standorte() {
                 <span>Schnell · Direkt · WhatsApp</span>
               </div>
               <h3 className="text-[18px] font-semibold md:text-[20px]" style={{ color: 'var(--c-navy)' }}>
-                Wir kommen auch zu dir — sprich uns an, wir holen dich ab.
+                Schreib uns direkt — wir melden uns persönlich bei dir.
               </h3>
               <p className="mt-1 text-[13.5px]" style={{ color: 'rgba(26, 26, 46, 0.7)' }}>
                 Schreib uns direkt per WhatsApp oder ruf die Mobilnummer an.

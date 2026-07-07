@@ -10,7 +10,7 @@ import { HAUPTNUMMER } from '@/lib/standorte';
 type Props = { active: ModeId };
 
 const fadeUp = {
-  initial: { opacity: 0, y: 14 },
+  initial: { opacity: 1, y: 0 },
   animate: { opacity: 1, y: 0 },
   exit: { opacity: 0, y: -14 },
   transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] },
@@ -24,7 +24,6 @@ export default function HeroContent({ active }: Props) {
 
   const handleBadgeClick = (e: MouseEvent<HTMLAnchorElement>, code: string) => {
     e.preventDefault();
-    window.history.replaceState(null, '', `#${klasseAnchorId(code)}`);
     window.dispatchEvent(new CustomEvent('wollenweber:klasse-target', { detail: { code } }));
   };
 

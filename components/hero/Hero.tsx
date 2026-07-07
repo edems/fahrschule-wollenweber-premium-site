@@ -26,7 +26,6 @@ function readInitialMode(): ModeId {
 export default function Hero() {
   const [active, setActive] = useState<ModeId>('auto');
   const [mounted, setMounted] = useState(false);
-  const [loadComplete, setLoadComplete] = useState(false);
   const [mouse, setMouse] = useState({ x: 0, y: 0 });
   const sectionRef = useRef<HTMLElement>(null);
   const reduce = useReducedMotion();
@@ -34,11 +33,6 @@ export default function Hero() {
   useEffect(() => {
     setActive(readInitialMode());
     setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    const timer = window.setTimeout(() => setLoadComplete(true), 1150);
-    return () => window.clearTimeout(timer);
   }, []);
 
   useEffect(() => {
@@ -71,16 +65,12 @@ export default function Hero() {
   const textYRaw = useTransform(scrollYProgress, [0, 1], [0, -140]);
   const textY = useSpring(textYRaw, { stiffness: 80, damping: 22, mass: 0.4 });
   const textOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-  const chipYRaw = useTransform(scrollYProgress, [0, 0.7], [0, -50]);
-  const chipY = useSpring(chipYRaw, { stiffness: 100, damping: 25, mass: 0.4 });
-  const chipOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
-
   // Cursor-Follow Glow (sehr subtil)
   const glowX = useSpring(mouse.x * 30, { stiffness: 60, damping: 20 });
   const glowY = useSpring(mouse.y * 30, { stiffness: 60, damping: 20 });
 
   return (
-    <motion.section
+    <section
       ref={sectionRef}
       id="top"
       className="hero-section relative min-h-[844px] w-full overflow-hidden sm:h-[100vh] sm:min-h-[720px]"
@@ -92,15 +82,6 @@ export default function Hero() {
       <div className="pointer-events-none absolute inset-0 z-[1] bg-[linear-gradient(180deg,rgba(10,10,20,0.55)_0%,rgba(10,10,20,0.25)_30%,rgba(10,10,20,0.15)_55%,rgba(10,10,20,0.45)_100%)]" />
       <div className="pointer-events-none absolute inset-0 z-[1] bg-[radial-gradient(ellipse_at_20%_50%,rgba(91,79,233,0.12)_0%,transparent_58%)]" />
 
-      {!reduce && (
-        <motion.div
-          className="pointer-events-none absolute inset-x-0 top-0 z-[45] h-px origin-left bg-gradient-to-r from-transparent via-white to-transparent"
-          initial={{ scaleX: 0, opacity: 0.9 }}
-          animate={{ scaleX: loadComplete ? 1 : 0.72, opacity: loadComplete ? 0 : 0.9 }}
-          transition={{ duration: loadComplete ? 0.55 : 1.05, ease: [0.22, 1, 0.36, 1] }}
-        />
-      )}
-
       {/* Cursor-Follow Glow */}
       {!reduce && (
         <motion.div
@@ -111,19 +92,9 @@ export default function Hero() {
         />
       )}
 
-      {!reduce && (
-        <motion.div
-          className="absolute left-0 right-0 top-[96px] z-40"
-          style={{ y: chipY, opacity: chipOpacity }}
-        >
-          <ModeChips active={active} onChange={setActive} />
-        </motion.div>
-      )}
-      {reduce && (
-        <div className="absolute left-0 right-0 top-[96px] z-40">
-          <ModeChips active={active} onChange={setActive} />
-        </div>
-      )}
+      <div className="absolute left-0 right-0 top-[96px] z-40 hidden sm:block">
+        <ModeChips active={active} onChange={setActive} />
+      </div>
 
       {/* Scroll indicator (centered-right) */}
       <div className="pointer-events-none absolute right-12 top-1/2 z-10 hidden -translate-y-1/2 flex-col items-center gap-3 lg:flex">
@@ -141,16 +112,11 @@ export default function Hero() {
       <style jsx>{`
         .hero-section {
           isolation: isolate;
-          animation: hero-in 900ms cubic-bezier(0.22, 1, 0.36, 1) both;
-        }
-        @keyframes hero-in {
-          0% { opacity: 0; }
-          100% { opacity: 1; }
         }
         @media (prefers-reduced-motion: reduce) {
           .hero-section { animation: none; }
         }
       `}</style>
-    </motion.section>
+    </section>
   );
 }

@@ -9,6 +9,8 @@ const faviconPath =
   process.env.GITHUB_PAGES === 'true'
     ? '/fahrschule-wollenweber-premium-site/favicon.ico'
     : '/favicon.ico';
+const assetPrefix =
+  process.env.GITHUB_PAGES === 'true' ? '/fahrschule-wollenweber-premium-site' : '';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.fahrschule-wollenweber.de'),
@@ -100,6 +102,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="de">
       <body>
+        <link
+          rel="preload"
+          as="image"
+          href={`${assetPrefix}/videos/mobile/hero-auto-v1-poster.webp`}
+          fetchPriority="high"
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

@@ -3,7 +3,7 @@
 import { useRef, useEffect, useState } from 'react';
 import { motion, useScroll, useTransform, useSpring, useReducedMotion } from 'framer-motion';
 import type { ModeId } from '@/lib/modes';
-import { MODE_ORDER, MODES } from '@/lib/modes';
+import { MODES } from '@/lib/modes';
 
 type Props = {
   active: ModeId;
@@ -17,9 +17,9 @@ export default function VideoStage({ active }: Props) {
     landwirtschaft: null,
     bus: null,
     seminare: null,
+    handicap: null,
   });
   const [reducedMotion, setReducedMotion] = useState(false);
-  const [allowAdjacentPreload, setAllowAdjacentPreload] = useState(false);
   const stageRef = useRef<HTMLDivElement>(null);
   const activeRef = useRef(active);
   const reducedMotionRef = useRef(reducedMotion);
@@ -57,31 +57,18 @@ export default function VideoStage({ active }: Props) {
   }, []);
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
-    const mq = window.matchMedia('(min-width: 768px)');
-    const connection = navigator as Navigator & { connection?: { saveData?: boolean } };
-    const update = () => setAllowAdjacentPreload(mq.matches && !connection.connection?.saveData);
-    update();
-    mq.addEventListener('change', update);
-    return () => mq.removeEventListener('change', update);
-  }, []);
-
-  useEffect(() => {
-    MODE_ORDER.forEach((id) => {
-      const v = refs.current[id];
-      if (!v) return;
-      if (id === active && !reducedMotion) {
-        v.classList.add('is-active');
-        if (v.paused) {
-          v.currentTime = 0;
-          playActiveVideo();
-        }
-      } else if (id === active && reducedMotion) {
-        v.classList.add('is-active', 'is-paused');
-      } else {
-        v.classList.remove('is-active', 'is-paused');
-      }
-    });
+    const v = refs.current[active];
+    if (!v) return;
+    v.classList.add('is-active');
+    if (reducedMotion) {
+      v.classList.add('is-paused');
+      return;
+    }
+    v.classList.remove('is-paused');
+    if (v.paused) {
+      v.currentTime = 0;
+      playActiveVideo();
+    }
   }, [active, reducedMotion]);
 
   useEffect(() => {
@@ -111,18 +98,6 @@ export default function VideoStage({ active }: Props) {
     };
   }, []);
 
-  useEffect(() => {
-    if (!allowAdjacentPreload) return;
-    const currentIdx = MODE_ORDER.indexOf(active);
-    const next = MODE_ORDER[(currentIdx + 1) % MODE_ORDER.length];
-    const prev = MODE_ORDER[(currentIdx - 1 + MODE_ORDER.length) % MODE_ORDER.length];
-    [next, prev].forEach((id) => {
-      if (MODES[id].media !== 'video') return;
-      const v = refs.current[id];
-      if (v && v.preload !== 'auto') v.preload = 'auto';
-    });
-  }, [active, allowAdjacentPreload]);
-
   // Scroll-Tracking – Video skaliert raus beim Raus-Scrollen, 3D-Tilt mit Maus
   const { scrollYProgress } = useScroll({
     target: stageRef,
@@ -135,9 +110,20 @@ export default function VideoStage({ active }: Props) {
   const rotateXRaw = useTransform(scrollYProgress, [0, 1], [0, -2]);
   const rotateX = useSpring(rotateXRaw, { stiffness: 50, damping: 20 });
   const overlayOpacity = useTransform(scrollYProgress, [0, 0.6], [0.4, 0.9]);
+  const activeMode = MODES[active];
 
   return (
-    <div ref={stageRef} className="absolute inset-0 z-0 overflow-hidden" id="video-stage" style={{ perspective: '1200px' }}>
+    <div
+      ref={stageRef}
+      className="absolute inset-0 z-0 overflow-hidden"
+      id="video-stage"
+      style={{
+        perspective: '1200px',
+        backgroundImage: "url('videos/mobile/hero-auto-v1-poster.webp')",
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}
+    >
       <motion.div
         className="absolute inset-0"
         style={reduce ? undefined : {
@@ -148,44 +134,38 @@ export default function VideoStage({ active }: Props) {
           transformStyle: 'preserve-3d',
         }}
       >
-        {MODE_ORDER.map((id) => {
-          const m = MODES[id];
-          const isActive = id === active;
-          if (m.media === 'image') {
-            return (
-              <div
-                key={id}
-                data-mode={id}
-                aria-hidden={!isActive}
-                className={`hero-video hero-static ${isActive ? 'is-active' : ''}`}
-              >
-                <div className="hero-static-bg" />
-                <img src={m.image} alt="" aria-hidden="true" className="hero-static-icon" />
-                <div className="hero-static-grid" />
-              </div>
-            );
-          }
-
-          return (
-            <video
-              key={id}
-              ref={(el) => {
-                refs.current[id] = el;
-              }}
-              data-mode={id}
-              muted
-              loop
-              playsInline
-              preload={isActive ? 'auto' : allowAdjacentPreload ? 'metadata' : 'none'}
-              poster={m.poster}
-              aria-hidden={!isActive}
-              className={`hero-video ${isActive ? 'is-active' : ''} ${reducedMotion && isActive ? 'is-paused' : ''}`}
-            >
-              <source src={m.videoMobile} type="video/mp4" media="(max-width: 640px)" />
-              <source src={m.video} type="video/mp4" />
-            </video>
-          );
-        })}
+        {activeMode.media === 'image' ? (
+          <div
+            key={active}
+            data-mode={active}
+            aria-hidden="true"
+            className="hero-video hero-static is-active"
+          >
+            <div className="hero-static-bg" />
+            <img src={activeMode.image} alt="" aria-hidden="true" className="hero-static-icon" />
+            <div className="hero-static-grid" />
+          </div>
+        ) : (
+          <video
+            key={active}
+            ref={(el) => {
+              refs.current[active] = el;
+            }}
+            data-mode={active}
+            muted
+            loop
+            playsInline
+            width={1920}
+            height={1080}
+            preload="metadata"
+            poster={activeMode.poster}
+            aria-hidden="true"
+            className={`hero-video is-active ${reducedMotion ? 'is-paused' : ''}`}
+          >
+            <source src={activeMode.videoMobile} type="video/mp4" media="(max-width: 640px)" />
+            <source src={activeMode.video} type="video/mp4" />
+          </video>
+        )}
       </motion.div>
 
       {!reduce && (

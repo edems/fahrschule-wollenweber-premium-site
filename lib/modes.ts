@@ -1,4 +1,4 @@
-export type ModeId = 'auto' | 'motorrad' | 'lkw' | 'landwirtschaft' | 'bus' | 'seminare';
+export type ModeId = 'auto' | 'motorrad' | 'lkw' | 'landwirtschaft' | 'bus' | 'seminare' | 'handicap';
 
 export type ModeConfig = {
   id: ModeId;
@@ -174,27 +174,54 @@ export const MODES: Record<ModeId, ModeConfig> = {
     videoMobile: '',
     poster: 'icons/optimized/klassen-seminare.webp',
     image: 'icons/optimized/klassen-seminare.webp',
-    badge: 'ASF · FES · BKrFQG · Stapler',
+    badge: 'BKF · Stapler · Baumaschinen · ASF · FES',
     badgeItems: [
+      { code: 'BKF' },
+      { code: 'Gabelstapler', label: 'Stapler' },
+      { code: 'Baumaschinen' },
       { code: 'ASF' },
       { code: 'FES' },
-      { code: 'BKrFQG' },
-      { code: 'Stapler' },
     ],
     headline: ['Seminare', 'mit Erlaubnis.', 'Direkt vor Ort.'],
     versprechen: [
-      'Einzige Fahrschule für alle Klassen an den Standorten Bad Marienberg und Hachenburg mit Seminarerlaubnis',
+      'Berufliche Weiterbildung, Staplerschein und Baumaschinenführer',
       'ASF Probezeit: Aufbauseminare für Fahranfänger',
       'FES Punkteabbau: Fahreignungsseminar bei Punkten in Flensburg',
     ],
     cta: 'Seminar anfragen',
     ctaHref: '#kontakt',
     stats: [
+      { value: 'BKF', label: 'Weiterbildung' },
       { value: 'ASF', label: 'Probezeit' },
       { value: 'FES', label: 'Punkteabbau' },
-      { value: '95', label: 'BKrFQG' },
+    ],
+  },
+  handicap: {
+    id: 'handicap',
+    label: 'Handicap',
+    media: 'image',
+    video: '',
+    videoMobile: '',
+    poster: 'icons/optimized/klassen-auto.webp',
+    image: 'icons/optimized/klassen-auto.webp',
+    badge: 'Führerschein mit Handicap',
+    badgeItems: [
+      { code: 'Handicap' },
+    ],
+    headline: ['Fahren lernen', 'mit Handicap.', 'In deinem Tempo.'],
+    versprechen: [
+      'Individuelle Beratung vor dem Start',
+      'Ruhige Ausbildung mit angepasstem Ablauf',
+      'Wir schauen gemeinsam, was du brauchst',
+    ],
+    cta: 'Handicap-Ausbildung anfragen',
+    ctaHref: '#kontakt',
+    stats: [
+      { value: '1:1', label: 'Beratung' },
+      { value: 'ruhig', label: 'Begleitung' },
+      { value: 'fair', label: 'Tempo' },
     ],
   },
 };
 
-export const MODE_ORDER: ModeId[] = ['auto', 'motorrad', 'lkw', 'bus', 'landwirtschaft', 'seminare'];
+export const MODE_ORDER: ModeId[] = ['auto', 'motorrad', 'lkw', 'bus', 'landwirtschaft', 'seminare', 'handicap'];

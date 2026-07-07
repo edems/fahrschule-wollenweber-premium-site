@@ -40,9 +40,9 @@ export const STANDORTE: Standort[] = [
     telefon: '0170-4769911',
     telefonLabel: '0170 / 476 99 11',
     email: 'info@fahrschule-wollenweber.de',
-    theoryLabel: 'Theorie: Mo & Mi · 18:00 – 19:30 Uhr',
+    theoryLabel: 'Theorie: Mo & Mi · 17:30 – 18:30 Uhr',
     oeffnungszeiten: [
-      { tag: 'Mo & Mi', zeit: '18:00 – 19:30 Uhr (Theorie)' },
+      { tag: 'Mo & Mi', zeit: '17:30 – 18:30 Uhr (Theorie)' },
       { tag: 'Individuelle Termine', zeit: 'nach Vereinbarung' },
     ],
     mapEmbed:

@@ -79,6 +79,8 @@ export const KATEGORIEN: Kategorie[] = [
       { code: 'BKF', name: 'Berufskraftfahrer', beschreibung: 'Berufliche Weiterbildung für Fahrer und Unternehmen, inklusive Ladungssicherung mit direktem Praxisbezug.' },
       { code: 'Gabelstapler', name: 'Staplerschein', beschreibung: 'Spezialschein für Betrieb und Logistik. Berufliche Weiterbildung für den sicheren Umgang mit Flurförderfahrzeugen.' },
       { code: 'Baumaschinen', name: 'Baumaschinenführer', beschreibung: 'Spezialschein für Baustelle und Maschine. Sicherer Umgang mit Baumaschinen in Theorie und Praxis.' },
+      { code: 'ASF', name: 'Aufbauseminar in der Probezeit', beschreibung: 'Aufbauseminar für Fahranfänger, wenn die Fahrerlaubnisbehörde es anordnet.' },
+      { code: 'FES', name: 'Fahreignungsseminar', beschreibung: 'Seminar für Verkehrsteilnehmer mit Punkten in Flensburg und Möglichkeit zum Punkteabbau.' },
     ],
   },
   {
