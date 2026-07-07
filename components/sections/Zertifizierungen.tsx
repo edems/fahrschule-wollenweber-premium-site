@@ -12,16 +12,10 @@ const BADGES = [
     description: 'im Westerwald etabliert, inhabergeführt',
   },
   {
-    icon: '✅',
-    value: 'Verbandsgemeinde',
-    label: 'Bad Marienberg',
-    description: 'Fahrlehrer-Erlaubnis durch das Ordnungsamt',
-  },
-  {
-    icon: '📜',
-    value: 'BKrFQG',
-    label: 'anerkannt',
-    description: 'Berufskraftfahrer-Weiterbildung, Schlüsselzahl 95',
+    icon: '⭐',
+    value: 'Auto Motor Sport',
+    label: 'Top 1000 Fahrschulen',
+    description: 'Zum wiederholten Mal unter den 1000 besten Fahrschulen Deutschlands',
   },
   {
     icon: '👨‍👩‍👦',
@@ -52,10 +46,10 @@ export default function Zertifizierungen() {
             eyebrow="Erfahrung & Zertifizierungen"
             title={
               <>
-                Die Besten vor Ort — <span className="gradient-text gradient-text-italic">mit Erfahrung, die zählt.</span>
+                Aus der Region — <span className="gradient-text gradient-text-italic">mit Erfahrung, die trägt.</span>
               </>
             }
-            description="Inhabergeführt seit über 20 Jahren. Fahrlehrer-Erlaubnis, BKrFQG-anerkannt, eingetragene GmbH. Bei uns bist du in geprüften Händen."
+            description="Seit über 20 Jahren im Westerwald verwurzelt: kurze Wege, bekannte Straßen, persönliche Begleitung und eine Ausbildung, die zur Region passt."
           />
         </PremiumReveal>
 
@@ -79,7 +73,7 @@ export default function Zertifizierungen() {
         >
           <span className="zert-callout-icon" aria-hidden>★</span>
           <p>
-            <strong>Familie Wollenweber</strong> — drei Fahrlehrer mit Herz, Verstand und über 20 Jahren Erfahrung in Bad Marienberg und Hachenburg. Wir bilden dich aus, als wärst du unser eigenes Kind.
+            <strong>Familie Wollenweber</strong> — drei Fahrlehrer mit Herz, Verstand und über 20 Jahren Erfahrung zwischen Bad Marienberg, Hachenburg und den Straßen des Westerwalds. Wir kennen die Region, die Prüfungsstrecken und die Menschen, die hier fahren lernen.
           </p>
         </motion.div>
       </div>
