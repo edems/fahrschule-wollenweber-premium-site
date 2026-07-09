@@ -32,6 +32,13 @@ const SECTION_TARGETS: SearchTarget[] = [
     aliases: ['preise', 'preis', 'kosten', 'gebühren', 'gebuehren', 'was kostet'],
   },
   {
+    id: 'faq',
+    label: 'Häufige Fragen',
+    detail: 'Anmeldung, Unterlagen, Kosten, Wechsel',
+    href: '#faq',
+    aliases: ['faq', 'fragen', 'antworten', 'unterlagen', 'anmeldung', 'wechsel', 'fahrschulwechsel', 'kosten'],
+  },
+  {
     id: 'ablauf',
     label: 'Ablauf',
     detail: 'Von Beratung bis Prüfung',

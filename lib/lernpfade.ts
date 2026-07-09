@@ -52,9 +52,9 @@ export const LERNPFADE: Lernpfad[] = [
   {
     id: 'beruf',
     titel: 'Berufskraftfahrer',
-    untertitel: 'Weiterbildung BKrFQG',
+    untertitel: 'Weiterbildung',
     beschreibung:
-      'Pflicht-Weiterbildung für Berufskraftfahrer. Module nach BKrFQG, anerkannt und praxisnah.',
+      'Praxisnahe Weiterbildung für Berufskraftfahrer mit Modulen für Sicherheit, Wirtschaftlichkeit und Verantwortung im Alltag.',
     dauer: '5 Module à 7h',
     zielgruppe: 'Speditionen, Busunternehmen, Landwirte',
     cta: 'Weiterbildung anfragen',

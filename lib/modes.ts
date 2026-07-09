@@ -73,14 +73,14 @@ export const MODES: Record<ModeId, ModeConfig> = {
     headline: ['Freiheit', 'auf zwei Rädern.', 'Kurvig, ehrlich.'],
     versprechen: [
       'Vom Mofa bis zur offenen Motorradklasse',
-      'Spezialist Michael für A-Klassen',
+      'Michael und Susanne sind bereit für deine A-Klassen-Ausbildung',
       'Sicherheit und Selbstvertrauen von Anfang an',
     ],
     cta: 'Motorrad-Klasse wählen',
     ctaHref: '#kontakt',
     stats: [
       { value: '5', label: 'Motorrad-Klassen' },
-      { value: '1', label: 'Spezialistin' },
+      { value: '2', label: 'Spezialisten' },
       { value: '100%', label: 'Leidenschaft' },
     ],
   },
@@ -100,7 +100,7 @@ export const MODES: Record<ModeId, ModeConfig> = {
     ],
     headline: ['Profi am Steuer.', 'Jeder Zentner.', 'Sicher unterwegs.'],
     versprechen: [
-      'Berufskraftfahrer-Weiterbildung',
+      'C1, C1E, C und CE für private und berufliche Ziele',
       'Vom leichten C1 bis zum schweren Lastzug CE',
       'Verantwortung lernen, die trägt',
     ],
@@ -108,8 +108,8 @@ export const MODES: Record<ModeId, ModeConfig> = {
     ctaHref: '#kontakt',
     stats: [
       { value: '4', label: 'LKW-Klassen' },
-      { value: '5×7h', label: 'Module' },
-      { value: 'BKrFQG', label: 'anerkannt' },
+      { value: 'C1-CE', label: 'Lastzug' },
+      { value: 'Praxis', label: 'nah' },
     ],
   },
   landwirtschaft: {

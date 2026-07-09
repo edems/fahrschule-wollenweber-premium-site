@@ -77,8 +77,8 @@ export default function TrustBar() {
             viewport={{ once: true, amount: 0.5 }}
             transition={{ duration: 0.65, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
           >
-            Direkt nach dem ersten Eindruck zählt Vertrauen: echte Bewertungen, kurze Wege,
-            feste Ansprechpartner und Erfahrung auf den Straßen der Region.
+            Fahrschule ist Vertrauenssache. Bei uns lernst du mit festen Ansprechpartnern,
+            ehrlicher Rückmeldung und auf Straßen, die du später wirklich fährst.
           </motion.p>
         </div>
 

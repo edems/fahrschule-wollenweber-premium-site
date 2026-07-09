@@ -8,6 +8,7 @@ const LINKS = [
   { href: '#klassen', label: 'Klassen & Seminare' },
   { href: '#ablauf', label: 'Ablauf' },
   { href: '#team', label: 'Team' },
+  { href: '#faq', label: 'FAQ' },
   { href: '#standorte', label: 'Standorte' },
   { href: '#regionen', label: 'Regionen' },
   { href: '#kontakt', label: 'Kontakt' },
@@ -274,15 +275,15 @@ export default function TopNav() {
           border-color: rgba(124, 58, 237, 0.45);
           background: rgba(255, 255, 255, 0.09);
         }
-        .search-panel {
+        :global(.search-panel) {
           position: absolute;
           right: 0;
           top: calc(100% + 12px);
           width: min(420px, calc(100vw - 32px));
           padding: 12px;
           border-radius: 20px;
-          border: 1px solid rgba(248, 248, 251, 0.16);
-          background: rgba(10, 10, 20, 0.9);
+          border: 1px solid rgba(248, 248, 251, 0.22);
+          background: rgba(10, 10, 20, 0.96);
           box-shadow: 0 24px 80px -36px rgba(0, 0, 0, 0.9);
           backdrop-filter: blur(26px) saturate(180%);
           -webkit-backdrop-filter: blur(26px) saturate(180%);
@@ -293,9 +294,9 @@ export default function TopNav() {
           gap: 10px;
           padding: 11px 13px;
           border-radius: 14px;
-          border: 1px solid rgba(248, 248, 251, 0.12);
-          background: rgba(255, 255, 255, 0.07);
-          color: rgba(248, 248, 251, 0.62);
+          border: 1px solid rgba(248, 248, 251, 0.2);
+          background: rgba(255, 255, 255, 0.1);
+          color: rgba(248, 248, 251, 0.82);
         }
         .search-input-wrap input {
           width: 100%;
@@ -322,7 +323,7 @@ export default function TopNav() {
           justify-content: space-between;
           gap: 12px;
           padding: 2px 3px 4px;
-          color: rgba(248, 248, 251, 0.58);
+          color: rgba(248, 248, 251, 0.74);
         }
         .search-results-head span {
           font-size: 11px;
@@ -332,7 +333,7 @@ export default function TopNav() {
         }
         .search-results-head small {
           font-size: 11.5px;
-          color: rgba(248, 248, 251, 0.42);
+          color: rgba(248, 248, 251, 0.64);
         }
         .search-result {
           display: grid;
@@ -344,15 +345,22 @@ export default function TopNav() {
           padding: 10px 12px 10px 10px;
           text-align: left;
           border-radius: 15px;
-          border: 1px solid rgba(248, 248, 251, 0.08);
-          background: rgba(255, 255, 255, 0.045);
+          border: 1px solid rgba(248, 248, 251, 0.26);
+          background:
+            linear-gradient(135deg, rgba(26, 26, 46, 0.98), rgba(15, 15, 30, 0.96)),
+            rgba(26, 26, 46, 0.98);
           color: #F8F8FB;
-          transition: background 180ms, transform 180ms, border-color 180ms;
+          box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.08),
+            0 14px 34px -24px rgba(0, 0, 0, 0.9);
+          transition: background 180ms, transform 180ms, border-color 180ms, box-shadow 180ms;
         }
         .search-result:hover {
           transform: translateX(2px);
-          border-color: rgba(124, 58, 237, 0.34);
-          background: rgba(124, 58, 237, 0.16);
+          border-color: rgba(248, 248, 251, 0.34);
+          background: rgba(248, 248, 251, 0.94);
+          color: var(--c-navy);
+          box-shadow: 0 16px 34px -22px rgba(26, 26, 46, 0.9);
         }
         .search-result-icon {
           display: grid;
@@ -360,8 +368,8 @@ export default function TopNav() {
           height: 42px;
           place-items: center;
           border-radius: 12px;
-          background: linear-gradient(135deg, rgba(91, 79, 233, 0.28), rgba(37, 211, 102, 0.12));
-          border: 1px solid rgba(248, 248, 251, 0.12);
+          background: linear-gradient(135deg, #5B4FE9, #7C3AED);
+          border: 1px solid rgba(248, 248, 251, 0.2);
           color: #F8F8FB;
           font-size: 12px;
           font-weight: 850;
@@ -381,14 +389,23 @@ export default function TopNav() {
           font-weight: 750;
         }
         .search-result-arrow {
-          color: rgba(248, 248, 251, 0.44);
+          color: rgba(248, 248, 251, 0.76);
           font-weight: 800;
         }
         .search-result-copy small,
         .search-empty {
-          color: rgba(248, 248, 251, 0.58);
+          color: rgba(248, 248, 251, 0.82);
           font-size: 12px;
           line-height: 1.45;
+        }
+        .search-result:hover .search-result-copy small,
+        .search-result:hover .search-result-arrow {
+          color: rgba(26, 26, 46, 0.68);
+        }
+        .search-result:hover .search-result-icon {
+          border-color: rgba(26, 26, 46, 0.12);
+          background: linear-gradient(135deg, #5B4FE9, #25D366);
+          color: #F8F8FB;
         }
         .search-empty {
           padding: 12px;

@@ -32,9 +32,9 @@ export const SEMINARE: Seminar[] = [
   {
     id: 'berufskraftfahrer',
     titel: 'Berufskraftfahrer-Weiterbildung',
-    kurz: 'BKrFQG',
+    kurz: 'BKF',
     beschreibung:
-      'Pflicht-Weiterbildung für Berufskraftfahrer nach dem Berufskraftfahrer-Qualifikations-Gesetz. Alle 5 Module, anerkannt und praxisnah.',
+      'Praxisnahe Weiterbildung für Berufskraftfahrer. Alle 5 Module mit Fokus auf Sicherheit, Wirtschaftlichkeit und Verantwortung im Alltag.',
     zielgruppe: 'Speditionen · Busunternehmen · Selbständige Fahrer',
     dauer: '5 Module à 7 Stunden',
     abschluss: 'Eintrag Schlüsselzahl 95 im Führerschein',

@@ -4,6 +4,7 @@ import Ablauf from '@/components/sections/Ablauf';
 import Team from '@/components/sections/Team';
 import Bewertungen from '@/components/sections/Bewertungen';
 import KlassenHub from '@/components/sections/KlassenHub';
+import FAQ from '@/components/sections/FAQ';
 import Fuhrpark from '@/components/sections/Fuhrpark';
 import Zertifizierungen from '@/components/sections/Zertifizierungen';
 import Standorte from '@/components/sections/Standorte';
@@ -20,6 +21,7 @@ export default function Home() {
       <Team />
       <Bewertungen />
       <KlassenHub />
+      <FAQ />
       <Fuhrpark />
       <Zertifizierungen />
       <Standorte />

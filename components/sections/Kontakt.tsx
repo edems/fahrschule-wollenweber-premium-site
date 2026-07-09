@@ -20,6 +20,7 @@ export default function Kontakt() {
   const [statusMessage, setStatusMessage] = useState('');
   const [activeKategorie, setActiveKategorie] = useState<KatId>('auto');
   const [selectedKlasse, setSelectedKlasse] = useState('B');
+  const [selectedStandort, setSelectedStandort] = useState(STANDORTE[0]?.ort ?? '');
 
   const aktiveKategorie = KATEGORIEN.find((k) => k.id === activeKategorie) ?? KATEGORIEN[0];
   const selectedKlasseInfo = useMemo(() => {
@@ -63,7 +64,7 @@ export default function Kontakt() {
       telefon: formData.get('telefon'),
       email: formData.get('email'),
       klasse: `${selectedKlasseInfo.code} · ${selectedKlasseInfo.name} (${selectedKlasseInfo.kategorie})`,
-      standort: formData.get('standort'),
+      standort: selectedStandort,
       datum,
       nachricht: formData.get('nachricht'),
     };
@@ -248,15 +249,31 @@ export default function Kontakt() {
               </div>
             </div>
 
-            <div className="form-row">
-              <div className="form-field">
-                <label htmlFor="standort">Standort</label>
-                <select id="standort" name="standort" required defaultValue="">
-                  <option value="" disabled>Bitte wählen</option>
-                  {STANDORTE.map((s) => (
-                    <option key={s.ort} value={s.ort}>{s.ort}</option>
-                  ))}
-                </select>
+            <div className="standort-picker" aria-labelledby="standort-picker-label">
+              <div id="standort-picker-label" className="form-label">Standort wählen</div>
+              <input type="hidden" name="standort" value={selectedStandort} />
+              <div className="standort-choice-grid" role="radiogroup" aria-label="Standort">
+                {STANDORTE.map((standort) => {
+                  const isSelected = standort.ort === selectedStandort;
+                  return (
+                    <button
+                      key={standort.ort}
+                      type="button"
+                      role="radio"
+                      aria-checked={isSelected}
+                      className={`klasse-choice standort-choice ${isSelected ? 'is-selected' : ''}`}
+                      onClick={() => setSelectedStandort(standort.ort)}
+                    >
+                      <span className="klasse-choice-code">{standort.ort.slice(0, 2)}</span>
+                      <span className="klasse-choice-copy">
+                        <span className="klasse-choice-name">{standort.ort}</span>
+                        <span className="klasse-choice-desc">
+                          {standort.adresse} · {standort.theoryLabel}
+                        </span>
+                      </span>
+                    </button>
+                  );
+                })}
               </div>
             </div>
 
@@ -319,7 +336,7 @@ export default function Kontakt() {
         .kontakt-section {
           background:
             radial-gradient(ellipse at 12% 12%, rgba(91, 79, 233, 0.13) 0%, transparent 36%),
-            radial-gradient(ellipse at 88% 20%, rgba(37, 211, 102, 0.11) 0%, transparent 34%),
+            radial-gradient(ellipse at 88% 20%, rgba(124, 58, 237, 0.11) 0%, transparent 34%),
             radial-gradient(ellipse at 52% 100%, rgba(236, 72, 153, 0.08) 0%, transparent 42%),
             linear-gradient(180deg, #F8F6F0 0%, #EDE9E1 54%, #F8FAFC 100%);
         }
@@ -489,6 +506,11 @@ export default function Kontakt() {
           flex-direction: column;
           gap: 12px;
         }
+        .standort-picker {
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+        }
         .klasse-category-tabs {
           display: flex;
           flex-wrap: wrap;
@@ -526,6 +548,14 @@ export default function Kontakt() {
         @media (min-width: 720px) {
           .klasse-chip-grid { grid-template-columns: 1fr 1fr; }
         }
+        .standort-choice-grid {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 10px;
+        }
+        @media (min-width: 720px) {
+          .standort-choice-grid { grid-template-columns: 1fr 1fr; }
+        }
         .klasse-choice {
           display: flex;
           gap: 12px;
@@ -543,11 +573,11 @@ export default function Kontakt() {
           background: rgba(255, 255, 255, 0.76);
         }
         .klasse-choice.is-selected {
-          border-color: rgba(37, 211, 102, 0.48);
+          border-color: rgba(124, 58, 237, 0.34);
           background:
-            linear-gradient(135deg, rgba(37, 211, 102, 0.14), rgba(255, 255, 255, 0.82)),
+            linear-gradient(135deg, rgba(91, 79, 233, 0.12), rgba(236, 72, 153, 0.08)),
             rgba(255, 255, 255, 0.82);
-          box-shadow: 0 16px 32px -20px rgba(37, 211, 102, 0.58);
+          box-shadow: 0 16px 32px -20px rgba(124, 58, 237, 0.5);
         }
         .klasse-choice-code {
           display: grid;
@@ -565,7 +595,7 @@ export default function Kontakt() {
           letter-spacing: 0.08em;
         }
         .klasse-choice.is-selected .klasse-choice-code {
-          background: linear-gradient(135deg, #25D366 0%, #5B4FE9 100%);
+          background: linear-gradient(135deg, #5B4FE9 0%, #7C3AED 62%, #EC4899 100%);
           border-color: transparent;
           color: #F8F8FB;
         }
@@ -585,6 +615,9 @@ export default function Kontakt() {
           color: rgba(26, 26, 46, 0.62);
           font-size: 12.5px;
           line-height: 1.45;
+        }
+        .standort-choice {
+          min-height: 108px;
         }
         .form-actions {
           display: grid;

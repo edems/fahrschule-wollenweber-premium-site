@@ -29,10 +29,10 @@ export default function Regionen() {
           eyebrow="Deine Region"
           title={
             <>
-              Wir bilden dich aus, <span className="gradient-text gradient-text-italic">wo du wohnst.</span>
+              Zufriedene Fahrschüler <span className="gradient-text gradient-text-italic">aus dem Westerwald.</span>
             </>
           }
-          description={`Ob Westerburg, Hachenburg, Bad Marienberg oder Altenkirchen – wir holen dich in deiner Region ab. Über ${REGIONEN_COUNT} Orte im Westerwald zählen auf Fahrschule Wollenweber.`}
+          description={`Viele unserer Fahrschüler kommen aus Westerburg, Hachenburg, Bad Marienberg, Altenkirchen und den umliegenden Orten. Über ${REGIONEN_COUNT} Orte im Westerwald zeigen, wo Fahrschule Wollenweber regional gesucht und empfohlen wird.`}
         />
 
         <Reveal delay={0.1} className="region-shell">
@@ -71,7 +71,7 @@ export default function Regionen() {
 
           <div className="region-footer">
             <p>
-              Dein Ort ist nicht dabei? Schreib uns per WhatsApp oder ruf mobil an – wir prüfen, ob wir dich einsammeln können.
+              Dein Ort ist nicht dabei? Schreib uns per WhatsApp oder ruf mobil an – wir sagen dir, welcher Standort und Ablauf für dich passt.
             </p>
             <a href={`tel:${HAUPTNUMMER.mobilTel}`} className="btn-outline-light shrink-0">
               {HAUPTNUMMER.mobil}

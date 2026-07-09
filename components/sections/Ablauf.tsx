@@ -110,7 +110,7 @@ export default function Ablauf() {
         .ablauf-section {
           background:
             radial-gradient(ellipse at 14% 10%, rgba(91, 79, 233, 0.16) 0%, transparent 38%),
-            radial-gradient(ellipse at 86% 20%, rgba(37, 211, 102, 0.12) 0%, transparent 34%),
+            radial-gradient(ellipse at 86% 20%, rgba(124, 58, 237, 0.13) 0%, transparent 34%),
             radial-gradient(ellipse at 58% 100%, rgba(236, 72, 153, 0.1) 0%, transparent 40%),
             linear-gradient(180deg, #F8F6F0 0%, #EDE9E1 52%, #F8FAFC 100%);
         }
@@ -143,7 +143,7 @@ export default function Ablauf() {
           height: 100%;
           transform-origin: top;
           border-radius: inherit;
-          background: linear-gradient(180deg, #25D366 0%, #5B4FE9 42%, #7C3AED 72%, #EC4899 100%);
+          background: linear-gradient(180deg, #5B4FE9 0%, #7C3AED 58%, #EC4899 100%);
           box-shadow: 0 0 24px rgba(91, 79, 233, 0.32);
         }
         .ablauf-step {
@@ -174,12 +174,12 @@ export default function Ablauf() {
           transition: color 260ms, border-color 260ms, background 260ms, box-shadow 260ms;
         }
         .ablauf-number.is-active {
-          border-color: rgba(37, 211, 102, 0.72);
-          background: linear-gradient(135deg, #25D366 0%, #5B4FE9 100%);
+          border-color: rgba(124, 58, 237, 0.58);
+          background: linear-gradient(135deg, #5B4FE9 0%, #7C3AED 62%, #EC4899 100%);
           color: #F8F8FB;
           box-shadow:
-            0 0 0 7px rgba(37, 211, 102, 0.1),
-            0 18px 36px -16px rgba(37, 211, 102, 0.72);
+            0 0 0 7px rgba(124, 58, 237, 0.1),
+            0 18px 36px -16px rgba(124, 58, 237, 0.64);
         }
         .ablauf-card {
           position: relative;
@@ -206,7 +206,7 @@ export default function Ablauf() {
           position: absolute;
           inset: 0;
           background:
-            radial-gradient(circle at 16% 0%, rgba(37, 211, 102, 0.18), transparent 30%),
+            radial-gradient(circle at 16% 0%, rgba(91, 79, 233, 0.16), transparent 30%),
             radial-gradient(circle at 96% 12%, rgba(236, 72, 153, 0.14), transparent 32%),
             linear-gradient(135deg, rgba(91, 79, 233, 0.06), transparent 54%);
           opacity: 0.95;
